@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070A12">
+<title>BALKAN EH v9.5 — Pravilnik i Kazne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Chakra+Petch:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root{
+    --bg:#070A12; --bg2:#0C1120; --bg3:#05070D;
+    --card:#0B101E; --card2:#0E1426;
+    --line:#1A2236; --line2:#252F4A;
+    --paper:#EDF1FA; --body:#AAB4CC; --mut:#5F6A85;
+    --red:#FF3860; --red-d:#C41740;
+    --blue:#4D7CFE; --blue-d:#2B4BD8;
+    --green:#2FDD9A; --green-d:#0FA36B;
+    --t1:#2FDD9A; --t2:#4D7CFE; --t3:#FF5C5C; --t4:#FF2257;
+    --disp:'Rajdhani',sans-serif;
+    --sans:'Chakra Petch',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+    --ease:cubic-bezier(.2,.85,.25,1);
+    --spring:cubic-bezier(.2,.9,.3,1.2);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--bg3)}
+  body{background:var(--bg);color:var(--body);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--red);color:#fff}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--line2);border:2px solid var(--bg);border-radius:6px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .dot{color:var(--red)}
+
+  /* scanline preko svega */
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:120;opacity:.04;
+    background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
+
+  /* RGB traka */
+  .rgbline{height:3px;background:linear-gradient(90deg,var(--red),var(--blue),var(--green),var(--red));
+    background-size:200% 100%;animation:rgbflow 6s linear infinite}
+  @keyframes rgbflow{to{background-position:200% 0}}
+
+  .eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.24em;color:var(--blue);margin-bottom:22px;text-transform:uppercase}
+  .eyebrow::before{content:"";width:8px;height:8px;background:var(--blue);
+    box-shadow:0 0 10px var(--blue);flex:none;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+    animation:spin4 4s linear infinite}
+  @keyframes spin4{to{transform:rotate(360deg)}}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    html{scroll-behavior:auto}
+  }
+
+  /* ============================================================
+     BOOT INTRO — TYPEWRITER
+     ============================================================ */
+  body.booting{overflow:hidden}
+  #intro{display:none;position:fixed;inset:0;z-index:200;background:var(--bg3);
+    flex-direction:column;justify-content:space-between;
+    padding:26px clamp(18px,5vw,52px);user-select:none;overflow:hidden;
+    transform:translateY(0);transition:transform .65s cubic-bezier(.78,0,.22,1)}
+  body.booting #intro,#intro.done{display:flex}
+  #intro.done{transform:translateY(-101%);pointer-events:none}
+  #intro .ifloor{position:absolute;left:-60%;right:-60%;bottom:-120px;height:340px;
+    background-image:
+      linear-gradient(rgba(77,124,254,.25) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,56,96,.2) 1px,transparent 1px);
+    background-size:56px 56px;
+    transform:perspective(420px) rotateX(64deg);transform-origin:top center;
+    animation:floorMove 2.4s linear infinite;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 35%,#000 80%,transparent);
+    mask-image:linear-gradient(to bottom,transparent,#000 35%,#000 80%,transparent)}
+  @keyframes floorMove{to{background-position:0 56px,0 0}}
+  .i-top{display:flex;justify-content:space-between;gap:16px;position:relative;z-index:1;
+    font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--mut)}
+  .live{display:flex;align-items:center;gap:8px;color:var(--red)}
+  .live i{width:8px;height:8px;background:var(--red);border-radius:50%;font-style:normal;
+    box-shadow:0 0 10px var(--red);animation:iblink 1.2s steps(1) infinite}
+  @keyframes iblink{50%{opacity:0}}
+  .i-center{flex:1;display:grid;place-items:center;position:relative;z-index:1}
+  .i-box{position:relative;padding:clamp(28px,6vw,60px) clamp(24px,6vw,70px);max-width:min(94vw,980px)}
+  .ic{position:absolute;width:22px;height:22px;border:0 solid var(--line2)}
+  .c1{top:0;left:0;border-top-width:3px;border-left-width:3px;border-color:var(--green)}
+  .c2{top:0;right:0;border-top-width:3px;border-right-width:3px;border-color:var(--blue)}
+  .c3{bottom:0;left:0;border-bottom-width:3px;border-left-width:3px;border-color:var(--blue)}
+  .c4{bottom:0;right:0;border-bottom-width:3px;border-right-width:3px;border-color:var(--red)}
+  .t-line{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,7vw,5rem);line-height:1.1;
+    color:var(--paper);text-transform:uppercase;min-height:1.15em;white-space:nowrap;letter-spacing:.02em}
+  .t-line.t2{color:var(--red);text-shadow:0 0 24px rgba(255,56,96,.55);font-size:clamp(1.4rem,5.4vw,3.8rem)}
+  .tc{display:inline-block;animation:charIn .12s ease both}
+  @keyframes charIn{from{opacity:0;transform:translateY(.14em)}to{opacity:1;transform:none}}
+  .tcur{display:inline-block;width:.55ch;height:.76em;background:var(--red);
+    margin-left:.08em;vertical-align:-.02em;box-shadow:0 0 12px var(--red);
+    animation:tcurBlink .8s steps(1) infinite}
+  .tcur.full{animation:none;background:var(--green);box-shadow:0 0 12px var(--green)}
+  @keyframes tcurBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .ibar-wrap{margin-top:clamp(22px,4vw,34px);display:flex;align-items:center;gap:16px}
+  .ibar{flex:1;height:14px;border:1px solid var(--line2);background:var(--bg2);padding:2px}
+  #ibar{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue),var(--red));
+    box-shadow:0 0 14px rgba(77,124,254,.6);transition:width .15s linear}
+  .istat{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--mut);min-width:118px;text-align:right}
+  .istat b{color:var(--red)}
+  .i-hint{display:flex;justify-content:center;position:relative;z-index:1;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--mut);
+    animation:softBlink 2.4s ease-in-out infinite}
+  @keyframes softBlink{50%{opacity:.3}}
+  @media(max-width:560px){ .t-line{white-space:normal} .istat{min-width:96px} }
+
+  /* ============ ZAGLAVLJE ============ */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(7,10,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    transform:none;transition:transform .6s var(--ease) .12s,box-shadow .3s}
+  body.booting header{transform:translateY(-110%)}
+  header.compact{box-shadow:0 8px 30px rgba(0,0,0,.6)}
+  .top-row{max-width:1280px;margin:0 auto;height:66px;padding:0 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-seal{width:40px;height:40px;background:linear-gradient(135deg,var(--red),var(--red-d));
+    color:#fff;font-family:var(--disp);font-weight:700;font-size:16px;display:grid;place-items:center;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+    box-shadow:0 0 18px rgba(255,56,96,.45);transition:.25s}
+  .logo:hover .logo-seal{box-shadow:0 0 30px rgba(255,56,96,.85);transform:rotate(-6deg) scale(1.06)}
+  .logo-txt{line-height:1.15}
+  .logo-txt b{font-family:var(--disp);font-weight:700;font-size:17px;color:var(--paper);letter-spacing:.06em;display:block}
+  .logo-txt span{font-family:var(--mono);font-size:9.5px;color:var(--mut);letter-spacing:.2em}
+  .h-nav{display:flex;gap:6px;margin-left:auto;margin-right:10px}
+  .h-nav a{position:relative;font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.14em;color:var(--mut);
+    height:38px;display:flex;align-items:center;padding:0 16px;transition:.15s;text-transform:uppercase;
+    clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+  .h-nav a::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:2px;
+    background:linear-gradient(90deg,var(--red),var(--blue));transform:scaleX(0);transform-origin:left;
+    transition:transform .3s var(--ease);box-shadow:0 0 8px rgba(255,56,96,.6)}
+  .h-nav a:hover{color:var(--paper)}
+  .h-nav a:hover::after{transform:scaleX(1)}
+  .h-nav a.on{color:#fff;background:linear-gradient(135deg,rgba(77,124,254,.25),rgba(77,124,254,.08));
+    box-shadow:0 0 16px rgba(77,124,254,.3),inset 0 0 12px rgba(77,124,254,.12)}
+  .h-nav a.on::after{transform:scaleX(1)}
+  .hbtn{display:flex;align-items:center;gap:9px;height:42px;padding:0 18px;
+    font-family:var(--disp);font-weight:700;font-size:13.5px;letter-spacing:.1em;transition:.2s var(--spring);text-transform:uppercase;
+    clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+  .hbtn.dc{background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;
+    box-shadow:0 0 20px rgba(77,124,254,.45)}
+  .hbtn.dc:hover{box-shadow:0 0 36px rgba(77,124,254,.85);transform:translateY(-3px) scale(1.03)}
+  .hbtn.dc:active{transform:translateY(1px) scale(.98)}
+  .dc-ic{width:16px;height:16px;flex:none}
+
+  .ticker{border-top:1px solid var(--line);height:34px;overflow:hidden;transition:height .3s var(--ease)}
+  header.compact .ticker{height:0}
+  .tk-track{display:inline-flex;align-items:center;height:34px;width:max-content;
+    animation:tick 70s linear infinite;white-space:nowrap}
+  .ticker:hover .tk-track{animation-play-state:paused}
+  @keyframes tick{to{transform:translateX(-50%)}}
+  .tk{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--mut);
+    padding:0 14px;height:100%;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+  .tk b{color:var(--paper);font-weight:700}
+  .tk:hover b{color:var(--red);text-shadow:0 0 10px rgba(255,56,96,.6)}
+  .tk-sep{color:var(--line2);font-family:var(--mono);font-size:11px}
+
+  /* ============ HERO — synthwave scena ============ */
+  .hero{max-width:1280px;margin:0 auto;padding:130px 28px 70px;position:relative;overflow:hidden}
+  .gridfloor{position:absolute;left:-60%;right:-60%;bottom:-140px;height:400px;
+    background-image:
+      linear-gradient(rgba(77,124,254,.28) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,56,96,.22) 1px,transparent 1px);
+    background-size:56px 56px;
+    transform:perspective(420px) rotateX(64deg);transform-origin:top center;
+    animation:floorMove 2.6s linear infinite;pointer-events:none;z-index:0;
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 78%,transparent);
+    mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 78%,transparent)}
+  .horizon{position:absolute;left:-10%;right:-10%;bottom:200px;height:2px;z-index:0;pointer-events:none;
+    background:linear-gradient(90deg,transparent 5%,var(--red) 40%,var(--blue) 60%,transparent 95%);
+    filter:blur(1px);opacity:.7;box-shadow:0 0 24px rgba(255,56,96,.5)}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;
+    animation:orbFloat 11s ease-in-out infinite alternate}
+  .orb.o1{width:440px;height:440px;background:var(--red);top:-140px;left:-140px;opacity:.16}
+  .orb.o2{width:480px;height:480px;background:var(--blue);bottom:-120px;right:-160px;opacity:.14;animation-delay:-5s}
+  .orb.o3{width:300px;height:300px;background:var(--green);top:30%;left:45%;opacity:.08;animation-delay:-8s}
+  @keyframes orbFloat{
+    0%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(40px,-30px) scale(1.12)}
+    100%{transform:translate(-30px,26px) scale(.94)}
+  }
+  .particles{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .pt{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--blue);
+    box-shadow:0 0 8px var(--blue);opacity:0;animation:ptFloat 7s ease-in-out infinite}
+  .pt:nth-child(1){left:12%;top:20%;animation-delay:0s;background:var(--red);box-shadow:0 0 8px var(--red)}
+  .pt:nth-child(2){left:28%;top:60%;animation-delay:-1.5s}
+  .pt:nth-child(3){left:46%;top:30%;animation-delay:-3s;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .pt:nth-child(4){left:63%;top:70%;animation-delay:-4.5s}
+  .pt:nth-child(5){left:80%;top:25%;animation-delay:-2.2s;background:var(--red);box-shadow:0 0 8px var(--red)}
+  .pt:nth-child(6){left:90%;top:55%;animation-delay:-5.8s}
+  @keyframes ptFloat{
+    0%,100%{transform:translate(0,0);opacity:0}
+    15%,85%{opacity:.85}
+    50%{transform:translate(18px,-46px);opacity:.85}
+  }
+  .hero>*{position:relative;z-index:2}
+
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;
+    font-weight:700;letter-spacing:.18em;padding:7px 13px;text-transform:uppercase;
+    clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+    transition:.2s var(--spring)}
+  .badge:hover{transform:translateY(-3px) scale(1.05)}
+  .badge.red{background:rgba(255,56,96,.12);color:var(--red);border:1px solid rgba(255,56,96,.45);
+    box-shadow:0 0 14px rgba(255,56,96,.2)}
+  .badge.blue{background:rgba(77,124,254,.12);color:var(--blue);border:1px solid rgba(77,124,254,.45);
+    box-shadow:0 0 14px rgba(77,124,254,.2)}
+  .badge.green{background:rgba(47,221,154,.1);color:var(--green);border:1px solid rgba(47,221,154,.4);
+    box-shadow:0 0 14px rgba(47,221,154,.15)}
+  .badge i{width:7px;height:7px;border-radius:50%;background:currentColor;font-style:normal;
+    box-shadow:0 0 8px currentColor;animation:iblink 1.6s steps(1) infinite}
+
+  h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;line-height:.94;letter-spacing:.01em}
+  h1 .h-out{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(77,124,254,.55);
+    font-size:clamp(2.4rem,7.6vw,6rem)}
+  h1 .h-in{display:block;
+    background:linear-gradient(90deg,var(--paper) 30%,var(--red) 70%,var(--red-d));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 26px rgba(255,56,96,.3));
+    font-size:clamp(3.2rem,10.5vw,8.6rem)}
+  /* glitch na outline liniji — tek posle intoa */
+  body.ready .h-out{animation:glitch 5s steps(1) infinite}
+  @keyframes glitch{
+    0%,91.5%,95.5%,100%{transform:none;text-shadow:none}
+    92%{transform:translateX(4px) skewX(-3deg);text-shadow:-5px 0 rgba(255,56,96,.8)}
+    93%{transform:translateX(-4px) skewX(3deg);text-shadow:5px 0 rgba(77,124,254,.8)}
+    94%{transform:translateX(2px);text-shadow:-3px 0 rgba(47,221,154,.7),3px 0 rgba(255,56,96,.7)}
+    95%{transform:translateX(-2px);text-shadow:2px 0 rgba(77,124,254,.7)}
+  }
+  /* pulsirajući glow na glavnoj liniji */
+  body.ready .h-in{animation:glowPulse 3.4s ease-in-out infinite}
+  @keyframes glowPulse{
+    0%,100%{filter:drop-shadow(0 0 22px rgba(255,56,96,.28))}
+    50%{filter:drop-shadow(0 0 44px rgba(255,56,96,.55))}
+  }
+  .mask{display:block;overflow:hidden}
+  .mask>span{display:block;transform:none;transition:transform .8s var(--ease) var(--d,0s)}
+  body.booting .mask>span{transform:translateY(115%)}
+  .hr-anim{opacity:1;transform:none;
+    transition:opacity .65s ease var(--d,0s),transform .65s var(--ease) var(--d,0s)}
+  body.booting .hr-anim{opacity:0;transform:translateY(26px)}
+
+  /* ============ PRETRAGA ============ */
+  .searchbar{margin-top:52px;display:flex;align-items:center;gap:14px;
+    background:var(--bg2);height:62px;padding:0 20px;transition:.25s;position:relative;
+    border:1px solid var(--line2);
+    clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+  .searchbar:focus-within{border-color:var(--blue);
+    box-shadow:0 0 24px rgba(77,124,254,.4),inset 0 0 24px rgba(77,124,254,.07);
+    animation:searchPulse 2.2s ease-in-out infinite}
+  @keyframes searchPulse{
+    0%,100%{box-shadow:0 0 20px rgba(77,124,254,.32),inset 0 0 20px rgba(77,124,254,.05)}
+    50%{box-shadow:0 0 34px rgba(77,124,254,.55),inset 0 0 26px rgba(77,124,254,.1)}
+  }
+  .searchbar svg{width:19px;height:19px;color:var(--mut);flex:none}
+  .searchbar input{flex:1;background:none;border:none;outline:none;color:var(--paper);
+    font-family:var(--mono);font-size:14px;min-width:0}
+  .searchbar input::placeholder{color:var(--mut)}
+  .sb-clear{display:none;color:var(--mut);padding:6px}
+  .sb-clear:hover{color:var(--red)} .sb-clear svg{width:15px;height:15px}
+  .searchbar.has .sb-clear{display:block}
+
+  /* ============ LAYOUT ============ */
+  .layout{max-width:1280px;margin:0 auto;padding:24px 28px 100px;
+    display:grid;grid-template-columns:250px 1fr;gap:64px;align-items:start;scroll-margin-top:120px}
+
+  #index{position:sticky;top:140px}
+  .ix-title{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--mut);
+    padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:8px;text-transform:uppercase}
+  .ix{display:flex;align-items:center;gap:10px;height:34px;padding:0 10px 0 14px;
+    font-family:var(--mono);font-size:12px;color:var(--mut);position:relative;transition:.13s;
+    border-left:2px solid transparent}
+  .ix-no{font-size:10px;color:var(--mut);width:16px}
+  .ix-code{color:var(--body);font-weight:700;letter-spacing:.06em}
+  .ix-name{font-size:11px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;display:none}
+  .ix-dot{width:6px;height:6px;background:var(--c);margin-left:auto;flex:none;box-shadow:0 0 6px var(--c)}
+  .ix:hover{color:var(--paper);background:var(--bg2)}
+  .ix.on{color:var(--paper);border-left-color:var(--blue);background:rgba(77,124,254,.08)}
+  .ix.on .ix-code{color:var(--blue);text-shadow:0 0 10px rgba(77,124,254,.6)}
+  .ix.kz{margin-top:10px;border-top:1px solid var(--line);height:40px;align-items:center}
+  .ix.kz.on{border-left-color:var(--red);background:rgba(255,56,96,.08)}
+  .ix.kz.on .ix-code{color:var(--red);text-shadow:0 0 10px rgba(255,56,96,.6)}
+
+  /* ============ PRAVILO — gaming kartica ============ */
+  .rule{position:relative;scroll-margin-top:170px;margin-bottom:26px;
+    background:linear-gradient(160deg,var(--card),var(--bg2));
+    border:1px solid var(--line);transition:border-color .3s,box-shadow .3s,transform .35s var(--ease);
+    clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
+  .rule.active{border-color:var(--tc);
+    box-shadow:0 0 38px var(--tcg),inset 0 0 34px rgba(0,0,0,.4)}
+  .rule.in:hover{transform:translateY(-5px);
+    box-shadow:0 14px 44px rgba(0,0,0,.55),0 0 30px var(--tcg)}
+  html.js .rule{opacity:0;transform:translateY(30px) scale(.985)}
+  html.js .rule.in{opacity:1;transform:none}
+  .rule-inner{padding:36px 40px 34px;position:relative;overflow:hidden}
+  /* shine prelaz preko kartice na hover */
+  .rule-inner::before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(237,241,250,.07),transparent);
+    transform:skewX(-22deg);transition:left .8s var(--ease);pointer-events:none;z-index:0}
+  .rule.in:hover .rule-inner::before{left:135%}
+  .rule-inner>*{position:relative;z-index:1}
+  .rule-glowline{height:3px;background:linear-gradient(90deg,var(--tc),transparent 70%);position:relative;overflow:hidden}
+  .rule-glowline::after{content:"";position:absolute;top:0;left:-40%;width:40%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+    animation:lineSweep 3.2s ease-in-out infinite}
+  @keyframes lineSweep{60%,100%{left:130%}}
+
+  .rule-head{display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap;
+    padding-bottom:26px;border-bottom:1px solid var(--line);position:relative}
+  .rule-code{font-family:var(--disp);font-weight:700;color:var(--tc);
+    font-size:clamp(3.2rem,6.4vw,5.4rem);line-height:.9;letter-spacing:.01em;flex:none;
+    text-shadow:0 0 28px var(--tcg);transition:.25s}
+  .rule:hover .rule-code{text-shadow:0 0 48px var(--tcg);transform:scale(1.03)}
+  .rule-id{flex:1;min-width:260px}
+  .rule-no{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--mut);margin-bottom:8px}
+  .rule-name{font-family:var(--disp);font-weight:700;color:var(--paper);
+    font-size:clamp(1.35rem,2.4vw,1.8rem);text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
+  .rule-sub{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:6px}
+  .rule-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+  .pill{display:inline-flex;align-items:center;gap:8px;color:var(--tc);
+    font-size:10px;font-weight:700;letter-spacing:.18em;padding:6px 12px;text-transform:uppercase;
+    background:rgba(255,255,255,.03);border:1px solid var(--tc);
+    clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
+  .pill i{width:7px;height:7px;background:var(--tc);font-style:normal;flex:none;
+    box-shadow:0 0 8px var(--tc);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.3}}
+  .m-fine{color:var(--mut)}
+  .m-fine b{color:var(--body);font-weight:500}
+  .rule-link{position:absolute;top:0;right:0;width:34px;height:34px;display:grid;place-items:center;
+    border:1px solid var(--line2);color:var(--mut);opacity:0;transition:.15s}
+  .rule-link svg{width:14px;height:14px}
+  .rule:hover .rule-link{opacity:1}
+  .rule-link:hover{color:var(--blue);border-color:var(--blue);box-shadow:0 0 12px rgba(77,124,254,.4)}
+
+  /* staggered ulaz elemenata unutar pravila */
+  html.js .rule .rule-head,html.js .rule .rule-def,html.js .rule .rule-cols,html.js .rule .sc-toggle{
+    opacity:0;transform:translateY(14px)}
+  html.js .rule.in .rule-head{opacity:1;transform:none;transition:opacity .45s ease .07s,transform .45s var(--ease) .07s}
+  html.js .rule.in .rule-def{opacity:1;transform:none;transition:opacity .45s ease .16s,transform .45s var(--ease) .16s}
+  html.js .rule.in .rule-cols{opacity:1;transform:none;transition:opacity .45s ease .25s,transform .45s var(--ease) .25s}
+  html.js .rule.in .sc-toggle{opacity:1;transform:none;transition:opacity .45s ease .34s,transform .45s var(--ease) .34s}
+
+  .rule-def{margin:28px 0 0;max-width:72ch;font-size:16px;line-height:1.75;color:var(--body)}
+  .rule-def b{color:var(--paper)}
+
+  .rule-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:32px}
+  .col{background:var(--bg2);border:1px solid var(--line);padding:18px 20px;position:relative;transition:.25s;
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+  .col:hover{border-color:var(--line2);transform:translateY(-3px)}
+  .col.h-ok{border-color:rgba(47,221,154,.35)}
+  .col.h-ok:hover{box-shadow:0 8px 26px rgba(0,0,0,.4),0 0 18px rgba(47,221,154,.18)}
+  .col.h-no{border-color:rgba(255,56,96,.4)}
+  .col.h-no:hover{box-shadow:0 8px 26px rgba(0,0,0,.4),0 0 18px rgba(255,56,96,.2)}
+  .col h4{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.22em;margin-bottom:12px;
+    display:flex;align-items:center;gap:8px;text-transform:uppercase}
+  .col.h-ok h4{color:var(--green);text-shadow:0 0 12px rgba(47,221,154,.5)}
+  .col.h-no h4{color:var(--red);text-shadow:0 0 12px rgba(255,56,96,.5)}
+  .col h4 svg{width:13px;height:13px}
+  .col ul{list-style:none}
+  .col li{font-size:13.5px;line-height:1.55;padding:7px 0 7px 20px;position:relative;color:var(--body);
+    border-bottom:1px solid rgba(26,34,54,.6);transition:.13s}
+  .col li:last-child{border-bottom:none}
+  .col li:hover{color:var(--paper);padding-left:24px}
+  .col li::before{position:absolute;left:0;font-family:var(--mono);font-weight:700;transition:.13s}
+  .col.h-ok li::before{content:"+";color:var(--green)}
+  .col.h-no li::before{content:"–";color:var(--red)}
+  .col li:hover::before{text-shadow:0 0 10px currentColor}
+
+  .sc-toggle{margin-top:32px;width:100%;display:flex;align-items:center;gap:12px;
+    font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--mut);
+    padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    transition:.15s;text-transform:uppercase}
+  .sc-toggle b{color:var(--paper)}
+  .sc-toggle .cnt{color:var(--blue)}
+  .sc-toggle svg{width:14px;height:14px;margin-left:auto;transition:transform .25s}
+  .sc-toggle:hover{color:var(--paper)}
+  .sc-toggle.closed svg{transform:rotate(-90deg)}
+  .sc-toggle.closed + .sc-list{display:none}
+
+  .scn{margin-top:20px;background:var(--bg3);border:1px solid var(--line);transition:.2s;
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+  .scn:hover{border-color:var(--line2);box-shadow:0 0 26px rgba(0,0,0,.55);transform:translateX(4px)}
+  .scn-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .scn-verdict{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;font-weight:700;padding:5px 10px;flex:none;
+    clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px)}
+  .scn.bad .scn-verdict{background:rgba(255,56,96,.14);color:var(--red);border:1px solid rgba(255,56,96,.5);
+    box-shadow:0 0 12px rgba(255,56,96,.2)}
+  .scn.ok .scn-verdict{background:rgba(47,221,154,.1);color:var(--green);border:1px solid rgba(47,221,154,.45);
+    box-shadow:0 0 12px rgba(47,221,154,.15)}
+  .scn-title{font-family:var(--mono);font-size:12px;color:var(--paper)}
+  .scn-scene{padding:13px 16px 0;font-size:13.5px;color:var(--mut);font-style:italic}
+  .log{margin:14px 16px 16px;background:#03050A;border:1px solid var(--line);
+    border-left:3px solid var(--blue);padding:14px 16px;
+    font-family:var(--mono);font-size:12.5px;line-height:1.9;position:relative;overflow:hidden}
+  .scn:hover .log{border-left-color:var(--red)}
+  .log::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(77,124,254,.6),transparent);
+    animation:logScan 4s linear infinite;pointer-events:none}
+  @keyframes logScan{0%{top:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:100%;opacity:0}}
+  .ln{display:flex;gap:10px;align-items:baseline}
+  .tg{flex:none;font-size:9.5px;font-weight:700;letter-spacing:.08em;padding:1px 6px;min-width:32px;text-align:center}
+  .tg-me{background:rgba(255,92,92,.14);color:var(--t3)}
+  .tg-do{background:rgba(95,106,133,.16);color:var(--mut)}
+  .tg-ch{background:rgba(237,241,250,.08);color:#C6CEDE}
+  .tg-ooc,.tg-dc{background:rgba(77,124,254,.14);color:var(--blue)}
+  .tg-sys{background:rgba(255,56,96,.16);color:var(--red)}
+  .tg-sys.ok{background:rgba(47,221,154,.14);color:var(--green)}
+  .ln .tx{color:var(--body);word-break:break-word}
+  .ln .tx b{color:var(--paper);font-weight:700}
+  .ln.sysline .tx{color:#9AA4BC}
+
+  #empty{padding:90px 40px;text-align:center;background:var(--card);border:1px solid var(--line)}
+  #empty svg{width:38px;height:38px;color:var(--mut)}
+  #empty h3{font-family:var(--disp);font-weight:700;color:var(--paper);font-size:1.7rem;
+    text-transform:uppercase;margin-top:18px}
+  #empty p{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:14px}
+  #empty button{margin-top:26px;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.16em;
+    border:1px solid var(--line2);padding:12px 22px;color:var(--body);transition:.15s;text-transform:uppercase;
+    clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+  #empty button:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 16px rgba(255,56,96,.25)}
+
+  /* ============ KAZNE ============ */
+  .kazne{max-width:1280px;margin:0 auto;padding:0 28px 120px;position:relative;scroll-margin-top:120px;overflow:hidden}
+  .kazne .orb{z-index:0}
+  .kz-head{padding:76px 0 34px;position:relative;z-index:1}
+  .kz-title{font-family:var(--disp);font-weight:700;
+    background:linear-gradient(90deg,var(--paper) 40%,var(--red));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 22px rgba(255,56,96,.25));
+    font-size:clamp(3.2rem,10vw,7.6rem);line-height:.95;text-transform:uppercase}
+  .kz-legend{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+  .lg{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+    color:var(--mut);border:1px solid var(--line);padding:9px 14px;background:var(--bg2);text-transform:uppercase;
+    clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+  .lg i{width:9px;height:9px;background:var(--c);font-style:normal;flex:none;box-shadow:0 0 8px var(--c)}
+
+  .pen{display:grid;grid-template-columns:300px 1fr;gap:26px;
+    background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);
+    margin-bottom:22px;padding:30px 34px;position:relative;z-index:1;transition:.25s;
+    clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+  html.js .pen{opacity:0;transform:translateY(24px)}
+  html.js .pen.in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s var(--ease),border-color .25s,box-shadow .25s}
+  .pen.in:hover{border-color:var(--line2);transform:translateY(-4px);
+    box-shadow:0 12px 36px rgba(0,0,0,.5)}
+  .pen-id{padding-right:8px}
+  .pen-no{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--mut)}
+  .pen-code{font-family:var(--disp);font-weight:700;color:var(--paper);
+    font-size:clamp(1.8rem,3.2vw,2.3rem);line-height:1;margin-top:10px;text-transform:uppercase;transition:.2s}
+  .pen:hover .pen-code{color:var(--red);text-shadow:0 0 22px rgba(255,56,96,.65)}
+  .pen-name{font-size:13.5px;color:var(--mut);margin-top:8px}
+  .pen-link{margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    color:var(--mut);transition:.15s;display:inline-flex;gap:6px}
+  .pen-link:hover{color:var(--blue)}
+  .pen-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .pstep{background:var(--bg2);border:1px solid var(--line);padding:18px 18px 20px;position:relative;transition:.2s;
+    clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+  .pstep:hover{border-color:var(--c);box-shadow:0 0 24px var(--cg);transform:translateY(-3px)}
+  .pstep::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--c);
+    box-shadow:0 0 10px var(--c)}
+  .pstep:not(:last-child)::after{content:"▸";position:absolute;right:-14px;top:50%;
+    transform:translateY(-50%);color:var(--mut);font-family:var(--mono);font-size:12px;z-index:1}
+  html.js .pen .pstep{opacity:0;transform:translateX(14px)}
+  html.js .pen.in .pstep{opacity:1;transform:none}
+  html.js .pen.in .pstep:nth-child(1){transition:opacity .4s ease .1s,transform .4s var(--ease) .1s}
+  html.js .pen.in .pstep:nth-child(2){transition:opacity .4s ease .22s,transform .4s var(--ease) .22s}
+  html.js .pen.in .pstep:nth-child(3){transition:opacity .4s ease .34s,transform .4s var(--ease) .34s}
+  .ps-l{display:inline-block;background:var(--c);color:#04070D;font-family:var(--mono);
+    font-size:8.5px;font-weight:700;letter-spacing:.14em;padding:5px 8px;line-height:1.4;text-transform:uppercase;
+    clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px)}
+  .ps-v{font-family:var(--disp);font-weight:700;font-size:16px;color:var(--paper);display:block;margin-top:13px;line-height:1.3}
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--bg2)}
+  .foot{max-width:1280px;margin:0 auto;padding:84px 28px 56px}
+  .foot-big{display:flex;align-items:flex-start;gap:22px;max-width:24ch;
+    font-family:var(--disp);font-weight:700;color:var(--paper);
+    font-size:clamp(1.5rem,4.5vw,3rem);line-height:1.15;text-transform:uppercase;transition:.2s}
+  .foot-big em{font-style:normal;color:var(--blue)}
+  .foot-big svg{width:38px;height:38px;color:var(--blue);flex:none;margin-top:8px;
+    filter:drop-shadow(0 0 10px rgba(77,124,254,.6));transition:transform .3s var(--spring)}
+  .foot-big:hover svg{transform:translate(8px,-8px) scale(1.12)}
+  .foot-btn{margin-top:36px;display:inline-flex;align-items:center;gap:12px;height:54px;padding:0 28px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;
+    font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.12em;
+    box-shadow:0 0 26px rgba(77,124,254,.5);transition:.2s var(--spring);text-transform:uppercase;
+    clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+  .foot-btn svg{width:17px;height:17px}
+  .foot-btn:hover{box-shadow:0 0 44px rgba(77,124,254,.85);transform:translateY(-3px) scale(1.03)}
+  .foot-btn:active{transform:translateY(1px) scale(.98)}
+  .foot-row{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--mut)}
+
+  /* ============ PROGRESS / CHIP / TOAST ============ */
+  .progress{position:fixed;left:0;right:0;bottom:0;height:3px;z-index:110;background:transparent}
+  .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--blue),var(--green));
+    transition:width .1s linear;box-shadow:0 0 10px rgba(255,56,96,.5)}
+  .chip{position:fixed;left:20px;bottom:20px;z-index:110;display:flex;align-items:center;gap:10px;
+    background:var(--bg2);border:1px solid var(--line2);padding:10px 15px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--mut);
+    opacity:0;transform:translateY(8px);pointer-events:none;transition:.25s;
+    clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+  .chip.show{opacity:1;transform:none;pointer-events:auto}
+  .chip:hover{border-color:var(--blue);box-shadow:0 0 18px rgba(77,124,254,.35)}
+  .chip b{color:var(--red);font-weight:700}
+  .chip .nm{color:var(--paper)}
+  .chip svg{width:13px;height:13px;color:var(--mut)}
+  .toasts{position:fixed;right:20px;bottom:20px;z-index:150;display:flex;flex-direction:column;gap:10px}
+  .toast{display:flex;align-items:center;gap:10px;background:var(--bg2);color:var(--green);
+    border:1px solid rgba(47,221,154,.45);box-shadow:0 0 22px rgba(47,221,154,.25);
+    font-family:var(--mono);font-size:12px;font-weight:500;
+    padding:12px 16px;animation:tIn .3s var(--spring);
+    clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+  .toast svg{width:15px;height:15px;flex:none}
+  .toast.out{opacity:0;transform:translateX(20px);transition:.3s}
+  @keyframes tIn{from{opacity:0;transform:translateX(24px) scale(.95)}}
+
+  /* ============ RESPONSIVE ============ */
+  @media(max-width:1024px){
+    .layout{grid-template-columns:1fr;gap:0}
+    #index{position:sticky;top:110px;z-index:60;display:flex;gap:8px;overflow-x:auto;
+      background:rgba(7,10,18,.94);backdrop-filter:blur(10px);padding:12px 0;
+      border-bottom:1px solid var(--line);scrollbar-width:none}
+    #index::-webkit-scrollbar{display:none}
+    .ix-title{display:none}
+    .ix{border:1px solid var(--line2);height:34px;flex:none;padding:0 12px;background:var(--bg2)}
+    .ix.on{border-color:var(--blue)}
+    .ix-name,.ix-dot{display:none}
+    .ix.kz{margin-top:0;border-top:1px solid var(--line2);height:34px}
+    .rule{scroll-margin-top:220px}
+    .pen{grid-template-columns:1fr;gap:20px}
+    .pstep:not(:last-child)::after{content:none}
+  }
+  @media(max-width:900px){ .h-nav{display:none} }
+  @media(max-width:720px){
+    .top-row{padding:0 16px}
+    .hbtn .lbl{display:none}
+    .hbtn{padding:0 14px}
+    .hero{padding:110px 16px 56px}
+    .layout{padding:8px 16px 90px}
+    .kazne{padding:0 16px 100px}
+    .rule-cols{grid-template-columns:1fr}
+    .rule-head{gap:16px}
+    .rule-inner{padding:26px 20px 26px}
+    .pen{padding:24px 20px}
+    .pen-steps{grid-template-columns:1fr}
+    .pstep + .pstep{margin-top:4px}
+    .foot{padding:64px 16px 44px}
+    .foot-row{flex-direction:column;gap:8px}
+    .rule-link{opacity:1}
+    .gridfloor{height:260px;bottom:-90px}
+    .horizon{bottom:130px}
+    .particles{display:none}
+  }
+</style>
+</head>
+<body>
+
+<script>document.body.classList.add('booting');</script>
+
+<!-- ================= BOOT INTRO ================= -->
+<div id="intro">
+  <div class="ifloor"></div>
+  <div class="i-top">
+    <span>BALKAN EH // SYSTEM BOOT</span>
+    <span class="live"><i></i>LIVE</span>
+  </div>
+  <div class="i-center">
+    <div class="i-box">
+      <i class="ic c1"></i><i class="ic c2"></i><i class="ic c3"></i><i class="ic c4"></i>
+      <div class="t-line" id="tl1w"><span id="l1"></span><span class="tcur" id="tcur"></span></div>
+      <div class="t-line t2" id="tl2w"><span id="l2"></span></div>
+      <div class="ibar-wrap">
+        <div class="ibar"><span id="ibar"></span></div>
+        <div class="istat" id="istat">BOOT ▸ <b>0%</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="i-hint">PRITISNI BILO KOJI TASTER ILI KLIK — PRESKOK</div>
+</div>
+
+<script>
+(function(){
+  var body = document.body;
+  var intro = document.getElementById('intro');
+  function finish(){
+    if(window.__ehBootDone) return;
+    window.__ehBootDone = true;
+    try{ window.removeEventListener('keydown', skip, true); }catch(e){}
+    try{ window.removeEventListener('pointerdown', skip, true); }catch(e){}
+    body.classList.remove('booting');
+    body.classList.add('ready');
+    if(intro){
+      intro.classList.add('done');
+      setTimeout(function(){ if(intro.parentNode) intro.parentNode.removeChild(intro); }, 900);
+    }
+    try{ window.dispatchEvent(new Event('eh:ready')); }catch(e){}
+  }
+  function skip(){ finish(); }
+  if(!intro){ finish(); return; }
+
+  var l1 = document.getElementById('l1');
+  var l2 = document.getElementById('l2');
+  var w2 = document.getElementById('tl2w');
+  var cur = document.getElementById('tcur');
+  var bar = document.getElementById('ibar');
+  var stat = document.getElementById('istat');
+  var S1 = 'BALKAN EH V9.5';
+  var S2 = 'DOBRODOŠLI';
+  var TOTAL = S1.length + S2.length;
+  var typed = 0, timers = [];
+  function T(f, ms){ timers.push(setTimeout(f, ms)); }
+
+  window.addEventListener('keydown', skip, true);
+  window.addEventListener('pointerdown', skip, true);
+
+  var rm = false;
+  try{ rm = matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  /* SREDNJA BRZINA */
+  var BASE = rm ? 30 : 100;
+  var VAR  = rm ? 10 : 85;
+
+  function type(str, el, cb){
+    var i = 0;
+    (function nx(){
+      if(window.__ehBootDone) return;
+      if(i >= str.length){ if(cb) cb(); return; }
+      var s = document.createElement('span');
+      s.className = 'tc';
+      s.textContent = str.charAt(i);
+      el.appendChild(s);
+      i++; typed++;
+      var pc = Math.round(typed / TOTAL * 100);
+      if(bar) bar.style.width = pc + '%';
+      if(stat) stat.innerHTML = 'BOOT ▸ <b>' + pc + '%</b>';
+      T(nx, BASE + Math.random() * VAR);
+    })();
+  }
+  var started = false;
+  function start(){
+    if(started || window.__ehBootDone) return;
+    started = true;
+    type(S1, l1, function(){
+      if(cur && w2) w2.appendChild(cur);
+      T(function(){
+        type(S2, l2, function(){
+          if(cur) cur.classList.add('full');
+          if(bar) bar.style.width = '100%';
+          if(stat) stat.innerHTML = '<b style="color:#2FDD9A">SPREMAN ✓</b>';
+          T(finish, rm ? 200 : 700);
+        });
+      }, rm ? 80 : 450);
+    });
+  }
+  var fb = setTimeout(start, 350);
+  try{
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(function(){ clearTimeout(fb); start(); });
+    }
+  }catch(e){}
+  setTimeout(finish, 11000);
+})();
+</script>
+
+<!-- MREŽA SIGURNOSTI -->
+<script>
+setTimeout(function(){
+  if(!window.__ehBootDone){
+    window.__ehBootDone = true;
+    document.body.classList.remove('booting');
+    document.body.classList.add('ready');
+    var i = document.getElementById('intro');
+    if(i && i.parentNode) i.parentNode.removeChild(i);
+    try{ window.dispatchEvent(new Event('eh:ready')); }catch(e){}
+  }
+}, 10000);
+</script>
+
+<header id="hdr">
+  <div class="top-row">
+    <a class="logo" href="#top">
+      <span class="logo-seal">EH</span>
+      <div class="logo-txt"><b>BALKAN EH</b><span>ROLEPLAY · v9.5</span></div>
+    </a>
+    <nav class="h-nav">
+      <a href="#pravila" id="navPravila">PRAVILA</a>
+      <a href="#kazne" id="navKazne">KAZNE</a>
+    </nav>
+    <div class="h-actions">
+      <a class="hbtn dc" href="https://discord.gg/balkaneh" target="_blank" rel="noopener" title="Pridruži se Discord serveru" aria-label="Discord">
+        <svg class="dc-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+        <span class="lbl">DISCORD</span>
+      </a>
+    </div>
+  </div>
+  <div class="ticker"><div class="tk-track" id="ticker"></div></div>
+  <div class="rgbline"></div>
+</header>
+
+<section class="hero" id="top">
+  <div class="gridfloor" aria-hidden="true"></div>
+  <div class="horizon" aria-hidden="true"></div>
+  <div class="orb o1" aria-hidden="true"></div>
+  <div class="orb o2" aria-hidden="true"></div>
+  <div class="orb o3" aria-hidden="true"></div>
+  <div class="particles" aria-hidden="true">
+    <span class="pt"></span><span class="pt"></span><span class="pt"></span>
+    <span class="pt"></span><span class="pt"></span><span class="pt"></span>
+  </div>
+  <div class="eyebrow hr-anim" style="--d:.05s">BALKAN EH · IZDANJE 9.5 · OBAVEZNO ZA SVE IGRAČE</div>
+  <div class="badges hr-anim" style="--d:.15s">
+    <span class="badge red"><i></i>LIVE</span>
+    <span class="badge blue">IZDANJE 9.5</span>
+    <span class="badge green">PRAVILNIK</span>
+  </div>
+  <h1>
+    <span class="mask" style="--d:.25s"><span class="h-out">BALKAN EH</span></span>
+    <span class="mask" style="--d:.4s"><span class="h-in">PRAVILNIK<span class="dot">.</span></span></span>
+  </h1>
+  <div class="searchbar hr-anim" id="sbar" style="--d:.6s">
+    <i data-lucide="search"></i>
+    <input id="q" type="text" placeholder="Traži pravilo, kraticu ili ključnu reč…" autocomplete="off">
+    <button class="sb-clear" id="qClear" aria-label="Očisti pretragu"><i data-lucide="x"></i></button>
+  </div>
+</section>
+
+<div class="layout" id="pravila">
+  <aside id="index">
+    <div class="ix-title">INDEKS PRAVILA</div>
+    <nav id="indexList"></nav>
+  </aside>
+  <div id="rules"></div>
+</div>
+
+<!-- ================= KAZNE ================= -->
+<section class="kazne" id="kazne" data-code="KAZNE">
+  <div class="orb o1" aria-hidden="true"></div>
+  <div class="orb o2" aria-hidden="true"></div>
+  <div class="kz-head">
+    <div class="eyebrow">ESKALACIONI SISTEM — KAZNA RASTE SA SVAKIM PREKRŠAJEM</div>
+    <h2 class="kz-title">KAZNE<span class="dot">.</span></h2>
+    <div class="kz-legend">
+      <span class="lg" style="--c:#2FDD9A"><i></i>UPOZORENJE / KICK</span>
+      <span class="lg" style="--c:#4D7CFE"><i></i>KRATKI BAN</span>
+      <span class="lg" style="--c:#FF5C5C"><i></i>DUGI BAN</span>
+      <span class="lg" style="--c:#FF2257"><i></i>TEŠKI BAN</span>
+    </div>
+  </div>
+  <div class="rgbline" style="margin-bottom:10px"></div>
+  <div id="pens"></div>
+</section>
+
+<div class="rgbline"></div>
+
+<footer>
+  <div class="foot">
+    <div class="eyebrow">ZAJEDNICA — DISCORD.GG/BALKANEH</div>
+    <a class="foot-big" href="https://discord.gg/balkaneh" target="_blank" rel="noopener">
+      <span>Sve što se dešava u gradu — <em>prvo na Discordu.</em></span>
+      <i data-lucide="arrow-up-right"></i>
+    </a>
+    <br>
+    <a class="foot-btn" href="https://discord.gg/balkaneh" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+      PRIKLJUČI SE — DISCORD.GG/BALKANEH
+    </a>
+    <div class="foot-row">
+      <span>BALKAN EH · PRAVILNIK v9.5</span>
+      <span>19 PRAVILA · RP SCENARIJI · 11 KAZNI</span>
+    </div>
+  </div>
+</footer>
+
+<div class="progress"><span id="pbar"></span></div>
+<button class="chip" id="chip" aria-label="Nazad na vrh">
+  <span>ČITAŠ</span><b id="chipNo">01</b><span class="nm" id="chipTxt">MG — METAGAMING</span>
+  <i data-lucide="arrow-up"></i>
+</button>
+<div class="toasts" id="toasts"></div>
+
+<!-- ================= GLAVNA APLIKACIJA ================= -->
+<script>
+const THREATS = ["NISKO","SREDNJE","VISOKO","KRITIČNO"];
+const TCOLORS = ["#2FDD9A","#4D7CFE","#FF5C5C","#FF2257"];
+const TGLOWS  = ["rgba(47,221,154,.35)","rgba(77,124,254,.35)","rgba(255,92,92,.35)","rgba(255,34,87,.5)"];
+
+const RULES = [
+{
+  code:"MG", name:"Metagaming", sub:"Mešanje IC i OOC sveta", threat:2,
+  fine:"Upozorenje · Kick · Ban 3 dana pri ponovljenom",
+  def:"Metagaming je korišćenje informacija koje tvoj lik <b>IC nije saznao</b> — sa Discorda, streamova, OOC chata, imena iznad glave — radi prednosti u igri. IC (in character) i OOC (out of character) svetovi su potpuno odvojeni: ono što znaš ti, ne zna tvoj lik.",
+  ok:["Pričaš sa društvom na Discordu o organizovanju OOC događaja, bez IC informacija","Pitaš administraciju OOC kako funkcioniše neka mehanika servera","Zoveš prijatelja da dođe da igra, bez IC povoda i bez razmene IC podataka"],
+  no:["Saznao si preko Discorda gde se neko IC nalazi — i odeš na tu lokaciju","Zoveš lika imenom pre nego što se IC upoznali ili ti se predstavio","Pratiš tuđi stream i koristiš pozicije, oružje ili planove igrača","Koristiš ime iz HUD-a za identifikaciju umesto IC opisa lika"],
+  ex:[
+    {v:"bad", t:"Discord presretanje", s:"Drug ti na Discordu pominje pljačku u toku — tvoj lik o njoj ne zna ništa.",
+     log:[
+       {k:"dc", w:"Strahinja_BGD", x:"bre pljackamo banku na centru, ne diraj"},
+       {k:"ch", w:"Vuk_Marković", x:"(ulazi autom na trg) Ej — znam šta radite, delite pare!"},
+       {k:"sys", x:"▲ MG — IC akcija povučena iz OOC informacije. Kazna: Upozorenje + Kick."}
+     ]},
+    {v:"bad", t:"Ime iznad glave", s:"Vidiš igrača prvi put u životu, ali mu znaš ime iz interfejsa.",
+     log:[
+       {k:"ch", w:"Miloš_Kralj", x:"Zdravo Marko_Petroviću, tačno te takvog tražim!"},
+       {k:"do", x:"Dva lika se nikada ranije nisu srela ni čula jedno za drugo."},
+       {k:"sys", x:"▲ MG — identifikacija preko imena iz HUD-a. Ispravno: pitati lika ko je."}
+     ]}
+  ]
+},
+{
+  code:"FRP", name:"Fear Roleplay", sub:"Nedostatak straha za sopstveni život", threat:3,
+  fine:"Kick · Ban 1–3 dana",
+  def:"Tvoj lik voli svoj život onoliko koliko i ti svoj. Kada mu je na cevi oružje, kada je nadjačan, vezan ili okružen — <b>mora realno da se plaši</b>, posluša i sarađuje. Imovina se zamenjuje; život se ne zamenjuje.",
+  ok:["Prkositi kada imaš realnu IC prednost — brojčanu, vatrenu ili pozicijsku","Bežati umesto da se sukobljavaš — uvek legitimna opcija","Pregovarati i tražiti kompromis pod pretnjom"],
+  no:["Vaditi oružje dok te dvojica ciljaju iz pušaka","Trčati u pucnjavu jer „mora da se izađe iz situacije“","Biti teško ranjen i nastaviti sprint i borbu bez /me tretmana"],
+  ex:[
+    {v:"bad", t:"Junak iz GTA Online-a", s:"Pljačka radnje — jedan načelnik sačmaricom, žrtva sama.",
+     log:[
+       {k:"ch", w:"Rađa_Petrović", x:"Ruke gore! Ovo je pljačka!"},
+       {k:"ch", w:"Žika_Mitrović", x:"(vadi pištolj pod cevi sačmarice) Nemam vremena za ovo."},
+       {k:"sys", x:"▲ FRP — nula straha pod direktnom pretnjom po život. Kazna: Kick + Ban 1 dan."}
+     ]},
+    {v:"ok", t:"Ispravan strah", s:"Ista situacija, odigrana kako treba.",
+     log:[
+       {k:"ch", w:"Rađa_Petrović", x:"Ruke gore! Ovo je pljačka!"},
+       {k:"me", w:"Žika_Mitrović", x:"polako diže ruke, drhteći, i spušta novčanik na tezgu."},
+       {k:"ch", w:"Žika_Mitrović", x:"Samo nemoj da pucaš… uzmi sve, mirno je."}
+     ]}
+  ]
+},
+{
+  code:"LTA", name:"Leaving To Avoid", sub:"Izbegavanje situacije izlaskom iz igre", threat:3,
+  fine:"Ban 1–3 dana",
+  def:"Napuštanje servera, AFK ili „nenamerni“ prekid igre tokom <b>aktivne IC situacije</b> — potere, pljačke, hapšenja, pregovora — da bi se izbegao ishod. Crash se prijavljuje, quit se kažnjava.",
+  ok:["Napustiti igru kada nema aktivne IC situacije","Prijaviti stvarni crash administraciji uz screenshot, čim se vratiš","Izaći uz prethodnu najavu kada je situacija okončana"],
+  no:["Quit tokom potere kada te policija sustiže","Diskonektovanje u trenutku dok te vežu ili trpaju u prtljažnik","Vratiti se na server posle pet minuta i nastaviti istu borbu"],
+  ex:[
+    {v:"bad", t:"Klasičan combat-quit", s:"Potera se završava — ali ne po pravilima.",
+     log:[
+       {k:"do", x:"Potera: tri patrolna vozila, igračev auto blokiran u ulazu."},
+       {k:"ch", w:"Jova_Đukić", x:"…"},
+       {k:"sys", x:"▲ Igrač Jova_Đukić napustio server tokom potere. LTA — Ban 1 dan."}
+     ]},
+    {v:"ok", t:"Korektan izlazak", s:"Izlazak posle završene scene nije prekršaj.",
+     log:[
+       {k:"ch", w:"Luka_Nikolić", x:"Hvala na igri i priči — mislim da smo gotovi ovde."},
+       {k:"ooc", w:"Luka_Nikolić", x:"((situacija završena, izlazim iz igre — vidimo se večeras))"}
+     ]}
+  ]
+},
+{
+  code:"RPS", name:"Roleplay Standardi", sub:"Minimalni standardi realizma", threat:2,
+  fine:"Upozorenje · Kick",
+  def:"Server traži minimalan nivo realizma u kretanju, vožnji i ponašanju. Tvoj lik je <b>običan stanovnik grada</b> — ne kaskader, ne vozač relija, ne superjunak. Padovi bole, auta se kvare, oružje se nosi razumno.",
+  ok:["Živahna vožnja koja ostaje pod kontrolom i ima IC smisao","Trke dogovorene IC na zatvorenim deonicama","Pad i povreda praćeni /me tretmanom i pozivom hitne"],
+  no:["Vožnja kamionom niz stepenište i kroz izloge","Skakanje s krova na krov bez ijedne povrede","Nošenje puške bez torbe ili bilo kakvog IC objašnjenja","Plivanje kilometrima kroz oluju bez posledica"],
+  ex:[
+    {v:"bad", t:"Kaskader bez koštane srži", s:"Treći sprat, beton, nula posledica.",
+     log:[
+       {k:"me", w:"Jovan_Kosanović", x:"skače s trećeg sprata na kontejner i nastavlja trčanje."},
+       {k:"sys", x:"▲ RPS — pad bez realnih posledica. Očekivano: /me povreda + hitna pomoć."}
+     ]},
+    {v:"ok", t:"Pad sa posledicama", s:"Isti skok, odigran ljudski.",
+     log:[
+       {k:"me", w:"Jovan_Kosanović", x:"pada, grči se od bola; desna noga pod čudnim uglom."},
+       {k:"ch", w:"Jovan_Kosanović", x:"Zovite hitnu… noga… ne mogu da ustanem…"}
+     ]}
+  ]
+},
+{
+  code:"FRP2", name:"Fail Roleplay", sub:"Rušenje logike lika i sveta", threat:2,
+  fine:"Upozorenje · Kick",
+  def:"Fail RP je svaka radnja koju niko razuman u toj situaciji ne bi uradio — i koja razbija uronjenu priču: <b>teleportujuća logika, ignorisanje sopstvenih rana</b>, apsurdni zahtevi, gluvilo na sve što se desilo liku pre sekund.",
+  ok:["Ekscentričan lik, ako je dosledan i nosi posledice","Panične i loše odluke koje su ipak ljudske","Greške koje lik kasnije ispašta kroz priču"],
+  no:["Tražiti posao u banci dok te gonitelji jure hodnikom","Nastaviti da pucaš posle pada s motora kao da se ništa nije desilo","Ignorisati povrede i voziti dalje potpuno normalno","Vraćati se u istu pljačku posle „kraće pauze“ bez objašnjenja"],
+  ex:[
+    {v:"bad", t:"Neprobojni lik", s:"Četiri metka, prevrnut auto — vožnja se nastavlja.",
+     log:[
+       {k:"do", x:"Lik ima četiri prostrelne rane; auto prevrnut na krov."},
+       {k:"ch", w:"Vladan_Cvijić", x:"(izvlači se i kreće peške brzo, bez muka)"},
+       {k:"sys", x:"▲ Fail RP — povrede se moraju odigrati. Kazna: Kick."}
+     ]},
+    {v:"ok", t:"Rane se priznaju", s:"Ista nesreća, drugačiji glumac.",
+     log:[
+       {k:"me", w:"Vladan_Cvijić", x:"pritiskuje ranu na ramenu, dahće, izvlači se iz auta na pola sile."},
+       {k:"ch", w:"Vladan_Cvijić", x:"Nemam snage… zovite pomoć, molim vas…"}
+     ]}
+  ]
+},
+{
+  code:"PG", name:"Powergaming", sub:"Nametanje ishoda bez šanse druge strane", threat:3,
+  fine:"Kick · Ban 1–3 dana",
+  def:"Powergaming je forsiranje ishoda radnje <b>bez da druga strana ima šansu da odigra reakciju</b> — ili korišćenje /me komandi za nemoguće, nepobitne stvari. Roleplay je razmena, ne monolog.",
+  ok:["Radnje koje realno zavise od okoline i dozvoljavaju reakciju","Deliti složene radnje na korake: /me hvata, pa /me vezuje","Priznati poraz kada je situacija izgubljena"],
+  no:["„/me veže lisice, trpa u prtljažnik i vozi“ — tri radnje u jednoj rečenici","„/me izbegava sve metke“ i slične nepobitne formulacije","Cimanje i prevrtanje u borbi radi desinka hitboxa","Korišćenje poznatih bugova za fizičku prednost"],
+  ex:[
+    {v:"bad", t:"Jedna rečenica — četiri radnje", s:"Od udarca do prtljažnika bez ijedne reakcije žrtve.",
+     log:[
+       {k:"me", w:"Miloš_Grbić", x:"nokautira Đorđa, vezuje mu lisice, trpa ga u prtljažnik i vozi."},
+       {k:"sys", x:"▲ PG — žrtvi nije data nikakva šansa za otpor. Kazna: Kick."}
+     ]},
+    {v:"ok", t:"Radnja po radnja", s:"Ista scena, pravilno tempirana.",
+     log:[
+       {k:"me", w:"Miloš_Grbić", x:"obara Đorđa i hvata mu ruku iza leđa."},
+       {k:"ch", w:"Đorđe_Marić", x:"Aj, puštam, puštam! Nemoj da lomiš ruku!"},
+       {k:"me", w:"Miloš_Grbić", x:"izvlači lisice i vezuje mu zglobove."}
+     ]}
+  ]
+},
+{
+  code:"BH", name:"Baiting", sub:"Namerno izazivanje bez IC motiva", threat:2,
+  fine:"Upozorenje · Kick",
+  def:"Baiting je namerno provociranje igrača ili policije <b>bez ikakvog IC motiva</b> — samo da bi se izazvao sukob, potera ili pucnjava. Provokacija bez priče je šteta po server; provokacija sa pričom je roleplay.",
+  ok:["Svađa koja izrasta iz IC priče — dug, uvreda, teritorija, biznis","Rivalstvo sa kontinuitetom i razvojem kroz vreme","Igranje nepristojnog lika koji ipak snosi posledice"],
+  no:["Vikanje uvreda na patrolu da bi te jurili","Kočenje pred policijom bez razloga pa bekstvo „jer je dosadno“","Skanjanje po haubama tuđih auta i bekstvo kad krene reakcija"],
+  ex:[
+    {v:"bad", t:"Ludi na patrolu", s:"Igrač krši tri propisa odjednom — samo da ga jure.",
+     log:[
+       {k:"ch", w:"Žika_Todorović", x:"(trči oko patrulnog auta vičući) Hajde, gonite me! Šta čekate?!"},
+       {k:"sys", x:"▲ BH — izazivanje organa reda bez IC motiva. Kazna: Upozorenje + Kick."}
+     ]},
+    {v:"ok", t:"Sukob sa pričom", s:"Ista interakcija, ali sa zadovoljstvom iza nje.",
+     log:[
+       {k:"ch", w:"Žika_Todorović", x:"Znam da ste mi zaplenili auto bez osnova — vratiću ga sudskim putem."},
+       {k:"do", x:"Žika snima interakciju telefonom i priprema tužbu preko advokata."}
+     ]}
+  ]
+},
+{
+  code:"BA", name:"Bug Abuse", sub:"Zloupotreba grešaka u igri", threat:4,
+  fine:"Ban 7–30 dana · konfiskacija sve stečenog",
+  def:"Bug abuse je korišćenje bilo koje greške u igri ili na serveru — dupliranje novca, prolaz kroz geometriju, ekonomski exploit — radi <b>bilo kakve prednosti</b>. Greška koju nađeš je obaveza prijave, ne alat.",
+  ok:["Prijaviti grešku preko ticketa — ozbiljne prijave se nagrađuju","Koristiti sve legitimne mehanike onako kako su zamišljene"],
+  no:["Dupliranje novca, oružja ili predmeta","Ulazak u interijere ili na pozicije kroz zidove","Deljenje exploita sa drugim igračima, čak i „iz šale“"],
+  ex:[
+    {v:"bad", t:"Ekonomski exploit", s:"Prodavnica koja plaća više nego što košta.",
+     log:[
+       {k:"do", x:"Igrač 40 puta prodaje isti predmet po 4.000€."},
+       {k:"sys", x:"▲ BA — ekonomski exploit. Ban 14 dana + konfiskacija celog budžeta."}
+     ]},
+    {v:"ok", t:"Prijava bug-a", s:"Ono što admin tim najviše voli.",
+     log:[
+       {k:"ch", w:"Peca_Zarić", x:"Admine, na skeletu mosta ima mesto gde se propada — šaljem klip na ticket."},
+       {k:"sys", x:"✓ Prijava greške registrovana — zahvalnica upućena, nalog čist."}
+     ]}
+  ]
+},
+{
+  code:"SS", name:"Stream Sniping", sub:"Praćenje tuđeg strima radi IC prednosti", threat:3,
+  fine:"Ban 3–7 dana",
+  def:"Stream sniping je praćenje tuđeg strima u realnom vremenu da bi saznao gde je igrač, šta nosi ili šta planira — i korišćenje toga u igri. <b>Stream je OOC prostor:</b> sve na njemu je tabu za tvoj lik.",
+  ok:["Gledati strim dok si offline, čisto radi zabave","Gledati svoje klipove i VOD-ove","Razgovarati o strimu OOC, bez ikakvih IC posledica"],
+  no:["Doći na lokaciju koju vidiš na tuđem strimu","Iskoristiti informaciju o oružju, skrovištu ili planu sa strima","Koordinirati napad preko chat-a na strimu"],
+  ex:[
+    {v:"bad", t:"Slučajna „šetnja“", s:"Na strimu teče priprema pljačke — a onda neko prošeta pored.",
+     log:[
+       {k:"dc", w:"Stream chat", x:"(na strimu: pljačka u pripremi, ulaz kroz zadnja vrata)"},
+       {k:"ch", w:"Gledalac_u_igri", x:"Čudno, baš parkiram kod zadnjih vrata te radnje…"},
+       {k:"sys", x:"▲ SS — IC akcija povučena sa tuđeg strima. Ban 3 dana."}
+     ]}
+  ]
+},
+{
+  code:"VDM", name:"Vehicle Deathmatch", sub:"Gaženje igrača vozilom", threat:4,
+  fine:"Ban 7–30 dana",
+  def:"<b>Vozilo nije oružje.</b> Namerno gaženje, guranje i prevrtanje igrača autom, motorom ili bilo kojim vozilom bez ozbiljne IC osnove je zabranjeno — uključujući i „samo sam mu smanjio HP“.",
+  ok:["Sudar koji se realno odigra i obradi kroz RP — izvinjenje, šteta, osiguranje","Korišćenje vozila za bekstvo, nikad za napad","Dostava, logistika i blokade u dogovorenim akcijama"],
+  no:["Namerno ubrzavanje u grupu ljudi na trotoaru","Kruženje parkingom da se „počiste“ igrači","Gaženje protivnika u pucnjavi radi lake pobede"],
+  ex:[
+    {v:"bad", t:"Red ispred kladionice", s:"Pet igrača čeka u redu. Neko reši da skrati red.",
+     log:[
+       {k:"do", x:"Trotoar ispred kladionice: pet igrača u redu, čekaju uplatu."},
+       {k:"sys", x:"▲ Igrač ubrzava pravo u red pešaka i nastavlja vožnju. VDM — Ban 7 dana."}
+     ]},
+    {v:"ok", t:"Sudar sa pričom", s:"Manja nesreća može biti odličan RP.",
+     log:[
+       {k:"ch", w:"Vozač", x:"Brate, izvini, kliznuo sam na uljanu mrlju… Da platim štetu?"},
+       {k:"me", w:"Vozač", x:"izlazi, pregleda ogrebotine, nudi razmenu za osiguranje."}
+     ]}
+  ]
+},
+{
+  code:"RDM", name:"Random Deathmatch", sub:"Ubijanje bez IC razloga", threat:4,
+  fine:"Ban 7–30 dana · permanent pri ponovljenom",
+  def:"Nijedan metak ne sme biti opaljen <b>bez IC razloga</b>. Ubistvo je vrhunac sukoba koji ima priču iza sebe — krajnje sredstvo, a nikad prva opcija. „Gledao me je čudno“ nije razlog.",
+  ok:["Upotreba sile u odbrani života — svog ili trećeg lica","Ubistvo sa dubokim IC razlogom koji umeš da ispričaš i odigraš","Eskalacija sa upozorenjem kada druga strana ignoriše posledice"],
+  no:["Pucanje na nepoznatog igrača „jer je krenuo ka meni“","Ubistvo zbog OOC nesuglasica ili iz prošlog života","Nož u leđa na parkingu bez ijedne izgovorene reči"],
+  ex:[
+    {v:"bad", t:"Prvi pogled, prvi metak", s:"Dva lika se nikad nisu videla. Jedan reši da promeni to.",
+     log:[
+       {k:"do", x:"Dva igrača se prvi put viđaju, na 20 metara, mirna ulica."},
+       {k:"sys", x:"▲ Igrač otvara vatru bez reči i razloga. RDM — Ban 7 dana."}
+     ]},
+    {v:"ok", t:"Sukob sa korenom", s:"Tri nedelje priče iza jednog metka — to je razlika.",
+     log:[
+       {k:"ch", w:"Vlasnik_radnje", x:"Ovo je treći put da mi obijate sef. Sledeći put ne zovem policiju."},
+       {k:"do", x:"Sukob sa IC istorijom od tri nedelje: tri upada, dve prijave, jedan ultimatum."}
+     ]}
+  ]
+},
+{
+  code:"DM", name:"Deathmatch", sub:"Masovni okršaji bez priče", threat:3,
+  fine:"Ban 3–7 dana",
+  def:"Grupne tuče, zonski ratovi i masovni obračuni <b>bez RP okvira</b> su deathmatch — bilo da osam igrača skuplja na spawn-u ili dve bande pucaju na mostu bez izgovorene reči. Masa ne pravi priču.",
+  ok:["Dogovoreni IC rat bandi sa eskalacijom i posledicama","Boks mečevi i turniri sa obostranim pristankom","Okršaji sa prethodnim razvojem: pregovori, ultimatumi, granice"],
+  no:["Skupljanje na „rat zony“ i pucanje do poslednjeg čoveka","Osveta „moje bande“ bez ijedne IC informacije o sukobu","Dolazak u tuđ sukob isključivo radi pucanja"],
+  ex:[
+    {v:"bad", t:"Rat zony", s:"Deset igrača, nula reči, hiljadu metaka.",
+     log:[
+       {k:"sys", x:"▲ Deset igrača se okuplja na igralištu i otvara vatru jedni na druge bez reči. DM — svim učesnicima Ban 3 dana."}
+     ]},
+    {v:"ok", t:"Rat sa ambasadom", s:"Ista masa, ali sa pregovorima pre metaka.",
+     log:[
+       {k:"do", x:"Ambasade obe bande razmenile su ultimatume nedelju dana unazad."},
+       {k:"ch", w:"Vođa_bande", x:"Ovo je poslednje upozorenje — pređite reku do ponoći."}
+     ]}
+  ]
+},
+{
+  code:"CB", name:"Combat Blocking", sub:"Ometanje tuđe IC situacije", threat:2,
+  fine:"Upozorenje · Kick",
+  def:"Combat blocking je namerno fizičko ometanje IC situacije u kojoj <b>ne učestvuješ</b>: blokiranje prolaza vozilom tokom tuđe potere, stajanje na vratima tokom pljačke, presecanje borbe telom. Ako nisi u priči — ne stoj u njenom putu.",
+  ok:["Prolaziti kroz zonu opasnosti kao uplašen civil koji beži","Biti svedok sa distance i pozvati policiju","Uključiti se u situaciju sa jasnim IC razlogom"],
+  no:["Parkiranje kamiona poprečno preko ulice tokom tuđe potere","Stajanje na vratima radnje koja se pljačka","Bacanje vozila ili predmeta u aktivnu borbu „za šalu“"],
+  ex:[
+    {v:"bad", t:"Kamion preko grla", s:"Potera prolazi glavnom ulicom. Neko je baš tada parkirao… baš tamo.",
+     log:[
+       {k:"do", x:"Potera ulazi u glavnu ulicu punom brzinom."},
+       {k:"sys", x:"▲ Civil parkira kamion poprečno i sedi u njemu. CB — Kick."}
+     ]},
+    {v:"ok", t:"Civil koji beži", s:"Pravo ponašanje slučajnog prolaznika.",
+     log:[
+       {k:"ch", w:"Prolaznik_Milan", x:"Bože, pucnjava — bežim odavde!"},
+       {k:"me", w:"Prolaznik_Milan", x:"trči u bočni prolaz i zove policiju iz zaklona."}
+     ]}
+  ]
+},
+{
+  code:"NLR", name:"New Life Rule", sub:"Pravilo novog života", threat:3,
+  fine:"Kick · Ban 1–3 dana",
+  def:"Smrt znači novi život: zaboravljaš <b>sve oko svoje smrti</b> — ko, kako, gde, zašto. Ne vraćaš se na lokaciju 30 minuta, ne tražiš osvetu i ne nastavljaš započeti posao. Život pre smrti pamtiš; sama smrt za tebe nikad nije postojala.",
+  ok:["Nastaviti život sa saznanjima stečenim pre smrti","Vratiti se u isti deo grada posle 30 minuta kroz novu situaciju","Graditi novi pravac priče iz istog života lika"],
+  no:["Vraćanje na mesto smrti i „gledanje šta se dešava“","Pitati druge ko te ubio, locirati ga i obračunati se","Nastaviti pljačku koja je u toku u prethodnom životu"],
+  ex:[
+    {v:"bad", t:"Duh s licemere", s:"Ubijen u pljački — vratio se za četiri minuta da gleda.",
+     log:[
+       {k:"sys", x:"▲ Lik ubijen u pljački; 4 minuta kasnije stoji preko puta i posmatra obračun. NLR — Kick."}
+     ]},
+    {v:"ok", t:"Čist novi život", s:"Isto jutro, drugi čovek.",
+     log:[
+       {k:"do", x:"Novi život: Jovan se budi u bolnici bez sećanja na oružje, sef i pljačku."},
+       {k:"ch", w:"Jovan_Kostić", x:"Doktore… gde sam? Šta mi je bilo? Ničega se ne sećam…"}
+     ]}
+  ]
+},
+{
+  code:"RK", name:"Revenge Kill", sub:"Osveta iz prošlog života", threat:3,
+  fine:"Kick · Ban 1–3 dana",
+  def:"Revenge kill je direktna posledica kršenja NLR-a: <b>vraćanje na ubistvo sopstvenog ubice</b>. Novi život ne zna ko mu je uzeo prethodni — i nema šta da osveti.",
+  ok:["Novi sukob sa potpuno novim IC razlogom, posle vremena","Prijaviti zločin policiji ako si svedok — ne ako si žrtva","Priča o osveti ispričana kroz druge likove i nove događaje"],
+  no:["Respawn → nabavka oružja → traženje ubice","Pretnja liku koji te ubio: „znaš ti mene šta si uradio“","Praćenje ubičinog auta po gradu „jer ga pamtim“"],
+  ex:[
+    {v:"bad", t:"Krug osvete", s:"Deset minuta od respawn-a do osvete.",
+     log:[
+       {k:"sys", x:"▲ Respawn posle obračuna; igrač za 10 minuta locira ubicu i otvara vatru. RK — Ban 2 dana."}
+     ]},
+    {v:"ok", t:"Svedok, ne žrtva", s:"Priča ide kroz očevidce, ne kroz mrtve.",
+     log:[
+       {k:"ch", w:"Svedokinja_Anđa", x:"Videla sam sve sopstvenim očima — evo opisa auta i tablica."},
+       {k:"do", x:"Prijava ide kroz priču svedoka; žrtva, po NLR-u, ništa ne pamti."}
+     ]}
+  ]
+},
+{
+  code:"CK", name:"Character Kill", sub:"Trajno ubistvo lika", threat:4,
+  fine:"Ban 7–30 dana za nelegalan CK",
+  def:"CK je <b>trajno umiranje lika</b> — iza njega nema respawn-a. Zbog težine, svaki CK na Balkan EH zahteva adminska odobrenja i ozbiljnu IC osnovu. CK je posledica priče, nikad hir.",
+  ok:["Dogovoreni CK obe strane — priča se zatvara dostojanstveno","CK kao vrhunac dugog sukoba, uz odobrenje administracije","Samoinicijativni CK — lik odlazi iz priče smrću koju sam bira"],
+  no:["CK iz OOC osvete ili nerazumevanja","CK preko trećeg lica bez odobrenja — vidi HK","Skrivanje imovine pre CK-a radi „nasleđa“ istom igraču"],
+  ex:[
+    {v:"bad", t:"Osveta iz Discorda", s:"Najgori mogući razlog za najtežu moguću odluku.",
+     log:[
+       {k:"sys", x:"▲ Igrač ubija tuđi lik iz OOC osvete, uz viku na OOC chat-u. Nelegalan CK — Ban 30 dana."}
+     ]},
+    {v:"ok", t:"Zatvaranje priče", s:"Deset meseci priče završava se kako zaslužuje.",
+     log:[
+       {k:"do", x:"Dogovoreni CK: ambasade obe strane odobrile su završnicu desetomesečne priče."},
+       {k:"ch", w:"Umirući_Andrija", x:"Prenesi mojoj ćerki… da sam voleo ovaj grad."}
+     ]}
+  ]
+},
+{
+  code:"AA", name:"Alt Abuse", sub:"Zloupotreba alternativnih naloga", threat:4,
+  fine:"Ban svih povezanih naloga 7–30 dana",
+  def:"Alt nalog nije besplatan drugi život. Zabranjeno je držati više aktivnih likova radi prevlasti: <b>prenošenje imovine, duplo zapošljavanje, špijuniranje</b> — a naročito vraćanje na novom nalogu posle bana.",
+  ok:["Alt lik prijavljen administraciji, sa odvojenom pričom i bez ikakvog kontakta sa glavnim","Novi nalog nakon legalnog CK-a glavnog lika"],
+  no:["Prebacivanje oružja, novca ili vozila između svojih naloga","Igranje policajca i kriminalca u istoj sesiji radi IC informacija","Vraćanje na novom nalogu posle bana — ban evading"],
+  ex:[
+    {v:"bad", t:"Pozajmica od „strica“", s:"Isto ime na kartici, ista IP, ista sudbina.",
+     log:[
+       {k:"sys", x:"▲ Nalog A prebacio je 40.000€ i dve puške nalogu B „od strica“. AA — oba naloga Ban 14 dana."}
+     ]},
+    {v:"ok", t:"Čist alt", s:"Moguće — ako se igra po knjizi.",
+     log:[
+       {k:"ch", w:"Novi_Lik", x:"Došao sam u grad tražiti posao kao svako drugi."},
+       {k:"do", x:"Prijava alt naloga poslata administraciji pre prvog ulaska u igru."}
+     ]}
+  ]
+},
+{
+  code:"AE", name:"Animation / Emote Exploit", sub:"Zloupotreba animacija za prednost", threat:3,
+  fine:"Kick · Ban 1–3 dana",
+  def:"Animacije i /e komande postoje za <b>izražaj, ne za prednost</b>. Svako korišćenje emote-ova za prolaz kroz geometriju, nepogodljivost ili prevaru borbenog sistema tretira se kao exploit.",
+  ok:["Izražajne animacije van borbe: sedenje, ples, kafa, razgovor","/me i /e za obogaćivanje scene u miru","Animacije povrede, umora i straha kroz /me"],
+  no:["Puzanje (crawl) ispod auta tokom potere da te „proguta“","Animacije koje te zaključavaju u nepogodljivom položaju u borbi","Emote clip kroz vrata, zidove i ograde"],
+  ex:[
+    {v:"bad", t:"Čovek-pod-kamionom", s:"Potera pešaka se završava… ispod šasije.",
+     log:[
+       {k:"do", x:"Potera pešaka: igrač se baca u /e crawl ispod kamiona i postaje fizički nedostupan."},
+       {k:"sys", x:"▲ AE — emote iskorišćen za fizičku prednost. Ban 1 dan."}
+     ]},
+    {v:"ok", t:"Emote sa dušom", s:"Ono zbog čega animacije i postoje.",
+     log:[
+       {k:"me", w:"Pevač_u_kafani", x:"diže čašu, nazdravlja publici i naklanja se."},
+       {k:"ch", w:"Publika", x:"Živeo! Još jednu!"}
+     ]}
+  ]
+},
+{
+  code:"HK", name:"Hitman Kill", sub:"Ubistvo po ugovoru, bez odobrenja", threat:4,
+  fine:"Ban 7–30 dana za naručioca i izvršioca",
+  def:"Naručivanje ili izvršavanje ubistva preko trećeg lica — „hitmen posao“ — <b>najstrože je regulisano</b>: zahteva adminska odobrenja, realnu agenciju sa pričom i ozbiljnu IC osnovu. HK bez papira je RDM sa posrednikom.",
+  ok:["Ugovoreni CK sa odobrenjem obe strane i administracije","Nabavka batina ili zastraživanja kroz priču — bez ubistva","Fixer lik sa licencom, dosijeom i cenovnikom, pod supervizijom"],
+  no:["Plaćanje drugom igraču 5.000€ da „skine“ trećeg bez odobrenja","Solo hitman lik koji ubija po DM-u bez ijedne scene","Naručivanje ubistva preko OOC kanala — Discord, DM-ovi"],
+  ex:[
+    {v:"bad", t:"Ugovor iz DM-a", s:"Pet hiljada na ruke, nula papira, dva bana.",
+     log:[
+       {k:"dc", w:"Naručilac", x:"daj mu 5k na ruke, samo da ga nestane do sutra"},
+       {k:"sys", x:"▲ HK bez odobrenja i IC osnove — naručilac i izvršilac: Ban 7 dana svaki."}
+     ]},
+    {v:"ok", t:"Agencija sa dosijeom", s:"Profesionalci rade po proceduri — i po priči.",
+     log:[
+       {k:"do", x:"Zahtev za CK odobren: agencija sa tri meseca priče, dokaza i svedoka."},
+       {k:"ch", w:"Fixer_sa_licencom", x:"Posao je zaključen. Javite se kad je gotovo — čisto."}
+     ]}
+  ]
+}
+];
+
+const PENALTIES = [
+  {code:"RDM", name:"Random Deathmatch", link:"RDM", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje + Kick", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"3 dana Ban", t:2},
+    {l:"TEŽI SLUČAJ / MASOVNI RDM", v:"7–30 dana Ban", t:4}]},
+  {code:"VDM", name:"Vehicle Deathmatch", link:"VDM", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje + Kick", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"3–7 dana Ban", t:2},
+    {l:"NAMERNO UBIJANJE VIŠE IGRAČA VOZILOM", v:"30 dana Ban", t:4}]},
+  {code:"MG", name:"MetaGaming", link:"MG", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"Kick + 3 dana Ban", t:2},
+    {l:"VELIKE OOC INFORMACIJE ZA KORIST", v:"7–14 dana Ban", t:3}]},
+  {code:"PG", name:"PowerGaming", link:"PG", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje + Kick", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"3–7 dana Ban", t:2},
+    {l:"TEŠKI PG KOJI UNIŠTAVA RP SITUACIJU", v:"14 dana Ban", t:3}]},
+  {code:"FRP", name:"FearRP", link:"FRP", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"Kick", t:1},
+    {l:"PONOVLJENO KRŠENJE", v:"3–7 dana Ban", t:2}]},
+  {code:"FAILRP", name:"FailRP", link:"FRP2", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"Kick", t:1},
+    {l:"KONSTANTNO KVARENJE RP-A", v:"3–14 dana Ban", t:2}]},
+  {code:"NLR", name:"New Life Rule", link:"NLR", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje + Kick", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"3 dana Ban", t:2},
+    {l:"NAMERNO VRAĆANJE RADI OSVETE", v:"7 dana Ban", t:3}]},
+  {code:"CL", name:"Combat Logging", link:"LTA", steps:[
+    {l:"PRVI PREKRŠAJ", v:"3 dana Ban", t:2},
+    {l:"DRUGI PREKRŠAJ", v:"7–14 dana Ban", t:3},
+    {l:"IZBEGAVANJE VELIKE RP SITUACIJE (HAPŠENJE, PLJAČKA, RAT)", v:"30 dana Ban", t:4}]},
+  {code:"CB", name:"Cop Baiting", link:"BH", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"Kick", t:1},
+    {l:"NAMERNO IZAZIVANJE VELIKIH POLICIJSKIH SITUACIJA", v:"3–7 dana Ban", t:2}]},
+  {code:"OOC", name:"OOC / IC Mešanje", link:"MG", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"Kick", t:1},
+    {l:"KORIŠĆENJE OOC INFORMACIJA ZA PREDNOST", v:"3–14 dana Ban", t:2}]},
+  {code:"PGV", name:"PowerGaming sa vozilima", link:"PG", steps:[
+    {l:"PRVI PREKRŠAJ", v:"Upozorenje + Kick", t:1},
+    {l:"DRUGI PREKRŠAJ", v:"3–7 dana Ban", t:2},
+    {l:"KONSTANTNO NEREALNO KORIŠĆENJE VOZILA", v:"14 dana Ban", t:3}]}
+];
+
+/* ---------------- pomoćne ---------------- */
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2,"0");
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function safe(fn){ try{ fn(); }catch(e){ console.error('[BALKAN EH]', e); } }
+
+/* ---------------- toast ---------------- */
+function toast(msg){
+  var box = document.getElementById('toasts');
+  if(!box) return;
+  var d = document.createElement('div');
+  d.className = 'toast';
+  d.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>'+msg+'</span>';
+  box.appendChild(d);
+  setTimeout(function(){ d.classList.add('out'); setTimeout(function(){ if(d.parentNode) d.parentNode.removeChild(d); }, 320); }, 2800);
+}
+
+/* ---------------- render ---------------- */
+function logLine(l){
+  var tags = {me:["ME","tg-me"],do:["DO","tg-do"],ch:["CHAT","tg-ch"],ooc:["OOC","tg-ooc"],dc:["DC","tg-dc"],sys:["SYS",null]};
+  var t = tags[l.k] || ["?",""];
+  var tgCls = l.k==="sys" ? ("tg-sys"+(l.x.indexOf("✓")===0?" ok":"")) : t[1];
+  var tx;
+  if(l.k==="do" || l.k==="sys") tx = esc(l.x);
+  else if(l.k==="me") tx = "<b>"+esc(l.w)+"</b> "+esc(l.x);
+  else tx = "<b>"+esc(l.w)+":</b> "+esc(l.x);
+  return '<div class="ln'+(l.k==="sys"?" sysline":"")+'"><span class="tg '+tgCls+'">'+t[0]+'</span><span class="tx">'+tx+'</span></div>';
+}
+
+function renderRules(){
+  var total = RULES.length;
+  var html = RULES.map(function(r,i){
+    var t = r.threat-1, col = TCOLORS[t];
+    var label = r.code==="FRP2" ? "FAIL&nbsp;RP" : r.code;
+    return ''+
+    '<article class="rule" id="rule-'+r.code+'" data-code="'+r.code+'" data-threat="'+r.threat+'" style="--tc:'+col+';--tcg:'+TGLOWS[t]+'">'+
+      '<div class="rule-glowline"></div>'+
+      '<div class="rule-inner">'+
+      '<header class="rule-head">'+
+        '<div>'+
+          '<div class="rule-no">'+pad(i+1)+' / '+pad(total)+'</div>'+
+          '<h2 class="rule-code">'+label+'</h2>'+
+        '</div>'+
+        '<div class="rule-id">'+
+          '<div class="rule-name">'+r.name+'</div>'+
+          '<div class="rule-sub">'+r.sub+'</div>'+
+          '<div class="rule-meta">'+
+            '<span class="pill"><i></i>'+THREATS[t]+'</span>'+
+            '<span class="m-fine">KAZNA ▸ <b>'+r.fine+'</b></span>'+
+          '</div>'+
+        '</div>'+
+        '<button class="rule-link" data-code="'+r.code+'" title="Kopiraj link do pravila" aria-label="Kopiraj link"><i data-lucide="link"></i></button>'+
+      '</header>'+
+      '<p class="rule-def">'+r.def+'</p>'+
+      '<div class="rule-cols">'+
+        '<div class="col h-ok">'+
+          '<h4><i data-lucide="check"></i>DOZVOLJENO</h4>'+
+          '<ul>'+r.ok.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>'+
+        '</div>'+
+        '<div class="col h-no">'+
+          '<h4><i data-lucide="x"></i>ZABRANJENO</h4>'+
+          '<ul>'+r.no.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>'+
+        '</div>'+
+      '</div>'+
+      '<button class="sc-toggle"><b>SCENARIJI</b><span class="cnt">('+pad(r.ex.length)+')</span><i data-lucide="chevron-down"></i></button>'+
+      '<div class="sc-list">'+
+        r.ex.map(function(e){
+          return '<div class="scn '+e.v+'">'+
+            '<div class="scn-head">'+
+              '<span class="scn-verdict">'+(e.v==="bad"?"PREKRŠAJ":"ISPRAVNO")+'</span>'+
+              '<span class="scn-title">'+esc(e.t)+'</span>'+
+            '</div>'+
+            '<p class="scn-scene">'+esc(e.s)+'</p>'+
+            '<div class="log">'+e.log.map(logLine).join("")+'</div>'+
+          '</div>';
+        }).join("")+
+      '</div>'+
+      '</div>'+
+    '</article>';
+  }).join("") +
+  '<div id="empty" hidden>'+
+    '<i data-lucide="search-x"></i>'+
+    '<h3>NIJE PRONAĐENO.</h3>'+
+    '<p id="emptyMsg"></p>'+
+    '<button id="btnReset">RESETUJ PRETRAGU</button>'+
+  '</div>';
+  document.getElementById("rules").innerHTML = html;
+}
+
+function renderPens(){
+  document.getElementById("pens").innerHTML = PENALTIES.map(function(p,i){
+    return '<article class="pen">'+
+      '<div class="pen-id">'+
+        '<div class="pen-no">'+pad(i+1)+' / '+pad(PENALTIES.length)+'</div>'+
+        '<h3 class="pen-code">'+p.code+'</h3>'+
+        '<div class="pen-name">'+esc(p.name)+'</div>'+
+        (p.link ? '<button class="pen-link" data-code="'+p.link+'">▸ PRAVILO '+(p.link==="FRP2"?"FAIL RP":p.link)+'</button>' : '')+
+      '</div>'+
+      '<div class="pen-steps">'+
+        p.steps.map(function(s){
+          return '<div class="pstep" style="--c:'+TCOLORS[s.t-1]+';--cg:'+TGLOWS[s.t-1]+'">'+
+            '<span class="ps-l">'+s.l+'</span>'+
+            '<span class="ps-v">'+esc(s.v)+'</span>'+
+          '</div>';
+        }).join("")+
+      '</div>'+
+    '</article>';
+  }).join("");
+}
+
+function renderIndex(){
+  document.getElementById("indexList").innerHTML = RULES.map(function(r,i){
+    return '<a class="ix" href="#rule-'+r.code+'" data-code="'+r.code+'" style="--c:'+TCOLORS[r.threat-1]+'">'+
+      '<span class="ix-no">'+pad(i+1)+'</span>'+
+      '<span class="ix-code">'+(r.code==="FRP2"?"FAILRP":r.code)+'</span>'+
+      '<span class="ix-name">'+r.name+'</span>'+
+      '<span class="ix-dot"></span>'+
+    '</a>';
+  }).join("") +
+  '<a class="ix kz" href="#kazne" data-code="KAZNE" style="--c:var(--red)">'+
+    '<span class="ix-no">+</span>'+
+    '<span class="ix-code">KAZNE</span>'+
+    '<span class="ix-name">Eskalacioni sistem</span>'+
+    '<span class="ix-dot"></span>'+
+  '</a>';
+}
+
+/* ---------------- ticker ---------------- */
+safe(function(){
+  var one = RULES.map(function(r){
+    return '<button class="tk" data-code="'+r.code+'"><b>'+(r.code==="FRP2"?"FAIL RP":r.code)+'</b>'+r.name.toUpperCase()+'</button><span class="tk-sep">///</span>';
+  }).join("") + '<button class="tk" data-code="KAZNE"><b>KAZNE</b>ESKALACIONI SISTEM</button><span class="tk-sep">///</span>';
+  document.getElementById("ticker").innerHTML = one + one;
+});
+
+/* ---------------- pretraga ---------------- */
+var state = {q:""};
+function norm(s){ return s.toLowerCase().replace(/[čć]/g,"c").replace(/ž/g,"z").replace(/š/g,"s").replace(/đ/g,"dj"); }
+
+function applyFilter(){
+  var q = norm(state.q.trim());
+  var visible = 0;
+  document.querySelectorAll(".rule").forEach(function(a){
+    var r = null;
+    for(var i=0;i<RULES.length;i++){ if(RULES[i].code===a.dataset.code){ r = RULES[i]; break; } }
+    if(!r) return;
+    var hay = norm([r.code==="FRP2"?"fail rp":r.code, r.name, r.sub, r.def.replace(/<[^>]+>/g,""), r.ok.join(" "), r.no.join(" "), r.ex.map(function(e){return e.t+" "+e.s;}).join(" ")].join(" "));
+    var show = (q===""||hay.indexOf(q)>-1);
+    a.style.display = show ? "" : "none";
+    if(show) visible++;
+    var ix = document.querySelector('.ix[data-code="'+r.code+'"]');
+    if(ix) ix.style.display = show ? "" : "none";
+  });
+  var emp = document.getElementById("empty");
+  if(emp) emp.hidden = visible>0;
+  if(visible===0){
+    var m = document.getElementById("emptyMsg");
+    if(m) m.textContent = "Nijedno pravilo se ne poklapa sa „"+state.q.trim()+"“. Probaj kraticu (RDM, NLR…) ili pojam (osveta, pljačka, ban…).";
+  }
+}
+
+safe(function(){
+  document.getElementById("q").addEventListener("input", function(e){
+    state.q = e.target.value;
+    document.getElementById("sbar").classList.toggle("has", !!state.q.trim());
+    applyFilter();
+  });
+  document.getElementById("qClear").addEventListener("click", function(){
+    document.getElementById("q").value=""; state.q="";
+    document.getElementById("sbar").classList.remove("has");
+    applyFilter();
+    document.getElementById("q").focus();
+  });
+});
+
+/* ---------------- navigacija ---------------- */
+function goToRule(code){
+  if(code === "KAZNE"){
+    var kz = document.getElementById("kazne");
+    if(kz) kz.scrollIntoView({behavior:"smooth"});
+    return;
+  }
+  if(state.q){
+    state.q="";
+    document.getElementById("q").value="";
+    document.getElementById("sbar").classList.remove("has");
+    applyFilter();
+  }
+  var el = document.getElementById("rule-"+code);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+document.addEventListener("click", function(e){
+  var rl = e.target.closest(".rule-link");
+  if(rl){
+    e.preventDefault();
+    var code = rl.dataset.code;
+    try{
+      history.replaceState(null, "", "#rule-"+code);
+      navigator.clipboard.writeText(location.href);
+    }catch(_){}
+    toast("Link do pravila "+code+" kopiran");
+    return;
+  }
+  var tk = e.target.closest(".tk");
+  if(tk){ e.preventDefault(); goToRule(tk.dataset.code); return; }
+  var pl = e.target.closest(".pen-link");
+  if(pl){ goToRule(pl.dataset.code); return; }
+  var rs = e.target.closest("#btnReset");
+  if(rs){ document.getElementById("qClear").click(); return; }
+  var st = e.target.closest(".sc-toggle");
+  if(st) st.classList.toggle("closed");
+});
+
+document.addEventListener("keydown", function(e){
+  var tag = document.activeElement ? document.activeElement.tagName : "";
+  if(/INPUT|TEXTAREA/.test(tag)) return;
+  if(e.key==="/"){ e.preventDefault(); document.getElementById("q").focus(); }
+});
+
+/* ---------------- scrollspy ---------------- */
+function setActive(code){
+  document.querySelectorAll(".ix").forEach(function(a){ a.classList.toggle("on", a.dataset.code===code); });
+  document.querySelectorAll(".rule").forEach(function(r){ r.classList.toggle("active", r.dataset.code===code); });
+  var navP = document.getElementById("navPravila"), navK = document.getElementById("navKazne");
+  if(code === "KAZNE"){
+    if(navP) navP.classList.remove("on");
+    if(navK) navK.classList.add("on");
+    document.getElementById("chipNo").textContent = "KZ";
+    document.getElementById("chipTxt").textContent = "KAZNE — ESKALACIONI SISTEM";
+  } else {
+    if(navK) navK.classList.remove("on");
+    if(navP) navP.classList.add("on");
+    for(var i=0;i<RULES.length;i++){
+      if(RULES[i].code===code){
+        document.getElementById("chipNo").textContent = pad(i+1);
+        document.getElementById("chipTxt").textContent = (RULES[i].code==="FRP2"?"FAIL RP":RULES[i].code)+" — "+RULES[i].name.toUpperCase();
+        break;
+      }
+    }
+  }
+}
+
+/* ================= INIT: PRVO RENDER, PA OBSERVERI ================= */
+safe(renderRules);
+safe(renderPens);
+safe(renderIndex);
+safe(applyFilter);
+
+safe(function(){
+  if('IntersectionObserver' in window){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) setActive(en.target.dataset.code); });
+    },{rootMargin:"-15% 0px -70% 0px"});
+    var reveal = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); reveal.unobserve(en.target); } });
+    },{rootMargin:"0px 0px -8% 0px"});
+    document.querySelectorAll(".rule").forEach(function(a){ spy.observe(a); reveal.observe(a); });
+    document.querySelectorAll(".pen").forEach(function(p){ reveal.observe(p); });
+    var kz = document.getElementById("kazne");
+    if(kz) spy.observe(kz);
+    document.documentElement.classList.add("js");
+    /* fail-safe */
+    setTimeout(function(){
+      document.querySelectorAll(".rule,.pen").forEach(function(el){
+        if(el.classList.contains("in")) return;
+        var r = el.getBoundingClientRect();
+        if(r.top < window.innerHeight && r.bottom > 0) el.classList.add("in");
+      });
+    }, 1200);
+  } else {
+    document.querySelectorAll(".rule,.pen").forEach(function(el){ el.classList.add("in"); });
+  }
+});
+
+safe(function(){
+  if(window.lucide) lucide.createIcons();
+});
+
+/* ---------------- scroll ---------------- */
+var hdr = document.getElementById("hdr");
+var chip = document.getElementById("chip");
+window.addEventListener("scroll", function(){
+  var h = document.documentElement;
+  var p = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById("pbar").style.width = p + "%";
+  if(chip) chip.classList.toggle("show", h.scrollTop > 650);
+  if(hdr) hdr.classList.toggle("compact", h.scrollTop > 60);
+}, {passive:true});
+if(chip) chip.addEventListener("click", function(){ window.scrollTo({top:0, behavior:"smooth"}); });
+
+/* ---------------- hash scroll posle intoa ---------------- */
+function scrollToHash(){
+  if(location.hash && location.hash.indexOf("#rule-")===0){
+    var el = document.querySelector(location.hash);
+    if(el) setTimeout(function(){ el.scrollIntoView({behavior:"smooth", block:"start"}); }, 400);
+  }
+}
+if(window.__ehBootDone) scrollToHash();
+else window.addEventListener('eh:ready', scrollToHash);
+</script>
+</body>
+</html>
