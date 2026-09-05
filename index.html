@@ -12,12 +12,12 @@
 <style>
   :root{
     --bg:#070A12; --bg2:#0C1120; --bg3:#05070D;
-    --card:#0B101E; --card2:#0E1426;
+    --card:#0B101E;
     --line:#1A2236; --line2:#252F4A;
     --paper:#EDF1FA; --body:#AAB4CC; --mut:#5F6A85;
     --red:#FF3860; --red-d:#C41740;
     --blue:#4D7CFE; --blue-d:#2B4BD8;
-    --green:#2FDD9A; --green-d:#0FA36B;
+    --green:#2FDD9A;
     --t1:#2FDD9A; --t2:#4D7CFE; --t3:#FF5C5C; --t4:#FF2257;
     --disp:'Rajdhani',sans-serif;
     --sans:'Chakra Petch',sans-serif;
@@ -27,7 +27,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;background:var(--bg3)}
-  body{background:var(--bg);color:var(--body);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--body);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
   ::selection{background:var(--red);color:#fff}
   ::-webkit-scrollbar{width:10px}
   ::-webkit-scrollbar-track{background:var(--bg)}
@@ -38,11 +38,9 @@
   :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .dot{color:var(--red)}
 
-  /* scanline preko svega */
   body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:120;opacity:.04;
     background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
 
-  /* RGB traka */
   .rgbline{height:3px;background:linear-gradient(90deg,var(--red),var(--blue),var(--green),var(--red));
     background-size:200% 100%;animation:rgbflow 6s linear infinite}
   @keyframes rgbflow{to{background-position:200% 0}}
@@ -60,7 +58,7 @@
   }
 
   /* ============================================================
-     BOOT INTRO — TYPEWRITER
+     BOOT INTRO
      ============================================================ */
   body.booting{overflow:hidden}
   #intro{display:none;position:fixed;inset:0;z-index:200;background:var(--bg3);
@@ -93,7 +91,7 @@
   .c3{bottom:0;left:0;border-bottom-width:3px;border-left-width:3px;border-color:var(--blue)}
   .c4{bottom:0;right:0;border-bottom-width:3px;border-right-width:3px;border-color:var(--red)}
   .t-line{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,7vw,5rem);line-height:1.1;
-    color:var(--paper);text-transform:uppercase;min-height:1.15em;white-space:nowrap;letter-spacing:.02em}
+    color:var(--paper);text-transform:uppercase;min-height:1.15em;letter-spacing:.02em}
   .t-line.t2{color:var(--red);text-shadow:0 0 24px rgba(255,56,96,.55);font-size:clamp(1.4rem,5.4vw,3.8rem)}
   .tc{display:inline-block;animation:charIn .12s ease both}
   @keyframes charIn{from{opacity:0;transform:translateY(.14em)}to{opacity:1;transform:none}}
@@ -110,13 +108,12 @@
   .istat b{color:var(--red)}
   .i-hint{display:flex;justify-content:center;position:relative;z-index:1;
     font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--mut);
-    animation:softBlink 2.4s ease-in-out infinite}
+    animation:softBlink 2.4s ease-in-out infinite;text-align:center}
   @keyframes softBlink{50%{opacity:.3}}
-  @media(max-width:560px){ .t-line{white-space:normal} .istat{min-width:96px} }
 
   /* ============ ZAGLAVLJE ============ */
   header{position:fixed;top:0;left:0;right:0;z-index:100;
-    background:rgba(7,10,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(7,10,18,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);
     transform:none;transition:transform .6s var(--ease) .12s,box-shadow .3s}
   body.booting header{transform:translateY(-110%)}
@@ -140,10 +137,9 @@
     background:linear-gradient(90deg,var(--red),var(--blue));transform:scaleX(0);transform-origin:left;
     transition:transform .3s var(--ease);box-shadow:0 0 8px rgba(255,56,96,.6)}
   .h-nav a:hover{color:var(--paper)}
-  .h-nav a:hover::after{transform:scaleX(1)}
+  .h-nav a:hover::after,.h-nav a.on::after{transform:scaleX(1)}
   .h-nav a.on{color:#fff;background:linear-gradient(135deg,rgba(77,124,254,.25),rgba(77,124,254,.08));
     box-shadow:0 0 16px rgba(77,124,254,.3),inset 0 0 12px rgba(77,124,254,.12)}
-  .h-nav a.on::after{transform:scaleX(1)}
   .hbtn{display:flex;align-items:center;gap:9px;height:42px;padding:0 18px;
     font-family:var(--disp);font-weight:700;font-size:13.5px;letter-spacing:.1em;transition:.2s var(--spring);text-transform:uppercase;
     clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
@@ -165,7 +161,7 @@
   .tk:hover b{color:var(--red);text-shadow:0 0 10px rgba(255,56,96,.6)}
   .tk-sep{color:var(--line2);font-family:var(--mono);font-size:11px}
 
-  /* ============ HERO — synthwave scena ============ */
+  /* ============ HERO + 3D NASLOV ============ */
   .hero{max-width:1280px;margin:0 auto;padding:130px 28px 70px;position:relative;overflow:hidden}
   .gridfloor{position:absolute;left:-60%;right:-60%;bottom:-140px;height:400px;
     background-image:
@@ -189,79 +185,78 @@
     50%{transform:translate(40px,-30px) scale(1.12)}
     100%{transform:translate(-30px,26px) scale(.94)}
   }
-  .particles{position:absolute;inset:0;pointer-events:none;z-index:1}
-  .pt{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--blue);
-    box-shadow:0 0 8px var(--blue);opacity:0;animation:ptFloat 7s ease-in-out infinite}
-  .pt:nth-child(1){left:12%;top:20%;animation-delay:0s;background:var(--red);box-shadow:0 0 8px var(--red)}
-  .pt:nth-child(2){left:28%;top:60%;animation-delay:-1.5s}
-  .pt:nth-child(3){left:46%;top:30%;animation-delay:-3s;background:var(--green);box-shadow:0 0 8px var(--green)}
-  .pt:nth-child(4){left:63%;top:70%;animation-delay:-4.5s}
-  .pt:nth-child(5){left:80%;top:25%;animation-delay:-2.2s;background:var(--red);box-shadow:0 0 8px var(--red)}
-  .pt:nth-child(6){left:90%;top:55%;animation-delay:-5.8s}
-  @keyframes ptFloat{
-    0%,100%{transform:translate(0,0);opacity:0}
-    15%,85%{opacity:.85}
-    50%{transform:translate(18px,-46px);opacity:.85}
-  }
   .hero>*{position:relative;z-index:2}
 
-  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
   .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;
     font-weight:700;letter-spacing:.18em;padding:7px 13px;text-transform:uppercase;
     clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
     transition:.2s var(--spring)}
   .badge:hover{transform:translateY(-3px) scale(1.05)}
-  .badge.red{background:rgba(255,56,96,.12);color:var(--red);border:1px solid rgba(255,56,96,.45);
-    box-shadow:0 0 14px rgba(255,56,96,.2)}
-  .badge.blue{background:rgba(77,124,254,.12);color:var(--blue);border:1px solid rgba(77,124,254,.45);
-    box-shadow:0 0 14px rgba(77,124,254,.2)}
-  .badge.green{background:rgba(47,221,154,.1);color:var(--green);border:1px solid rgba(47,221,154,.4);
-    box-shadow:0 0 14px rgba(47,221,154,.15)}
+  .badge.red{background:rgba(255,56,96,.12);color:var(--red);border:1px solid rgba(255,56,96,.45);box-shadow:0 0 14px rgba(255,56,96,.2)}
+  .badge.blue{background:rgba(77,124,254,.12);color:var(--blue);border:1px solid rgba(77,124,254,.45);box-shadow:0 0 14px rgba(77,124,254,.2)}
+  .badge.green{background:rgba(47,221,154,.1);color:var(--green);border:1px solid rgba(47,221,154,.4);box-shadow:0 0 14px rgba(47,221,154,.15)}
   .badge i{width:7px;height:7px;border-radius:50%;background:currentColor;font-style:normal;
     box-shadow:0 0 8px currentColor;animation:iblink 1.6s steps(1) infinite}
 
-  h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;line-height:.94;letter-spacing:.01em}
-  h1 .h-out{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(77,124,254,.55);
-    font-size:clamp(2.4rem,7.6vw,6rem)}
-  h1 .h-in{display:block;
-    background:linear-gradient(90deg,var(--paper) 30%,var(--red) 70%,var(--red-d));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 0 26px rgba(255,56,96,.3));
-    font-size:clamp(3.2rem,10.5vw,8.6rem)}
-  /* glitch na outline liniji — tek posle intoa */
-  body.ready .h-out{animation:glitch 5s steps(1) infinite}
+  /* ---------- 3D STAGE ---------- */
+  .h3d-stage{perspective:1000px;perspective-origin:50% 42%;margin:6px 0 4px}
+  .h3d-inner{transform-style:preserve-3d;transform:rotateX(16deg) rotateY(-7deg);
+    transition:transform .25s ease-out;will-change:transform}
+  @media(pointer:coarse){
+    .h3d-inner{animation:t3dfloat 8s ease-in-out infinite}
+  }
+  @keyframes t3dfloat{
+    0%,100%{transform:rotateX(16deg) rotateY(-7deg)}
+    33%{transform:rotateX(11deg) rotateY(4deg)}
+    66%{transform:rotateX(19deg) rotateY(-2deg)}
+  }
+  .t3d{font-family:var(--disp);font-weight:700;text-transform:uppercase;line-height:.94;
+    letter-spacing:.02em;user-select:none}
+  .t3d.blue3d{color:#EDF1FA;
+    font-size:clamp(2.6rem,9vw,7rem);
+    text-shadow:
+      0 1px 0 #4166EB, 0 2px 0 #3B5EE0, 0 3px 0 #3556D5, 0 4px 0 #2F4ECA,
+      0 5px 0 #2946BF, 0 6px 0 #233EB4, 0 7px 0 #1D36A9, 0 8px 0 #172E9E,
+      0 9px 0 #112693, 0 10px 0 #0B1E88,
+      0 12px 4px rgba(0,0,0,.45),
+      0 18px 22px rgba(0,0,0,.65),
+      0 26px 60px rgba(77,124,254,.35);
+    filter:drop-shadow(0 0 26px rgba(77,124,254,.3))}
+  .t3d.red3d{color:#FF6B87;
+    font-size:clamp(2.9rem,10vw,8rem);
+    text-shadow:
+      0 1px 0 #D9254F, 0 2px 0 #CE2049, 0 3px 0 #C31C43, 0 4px 0 #B8173D,
+      0 5px 0 #AD1337, 0 6px 0 #A20F31, 0 7px 0 #970B2B, 0 8px 0 #8C0725,
+      0 9px 0 #81031F, 0 10px 0 #760019,
+      0 12px 4px rgba(0,0,0,.5),
+      0 18px 24px rgba(0,0,0,.7),
+      0 28px 70px rgba(255,56,96,.45);
+    filter:drop-shadow(0 0 30px rgba(255,56,96,.45));
+    margin-top:4px}
+  .t3d-outline{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(47,221,154,.55);
+    font-size:clamp(1.5rem,4.8vw,3.6rem);margin-top:18px;letter-spacing:.3em;
+    text-transform:uppercase;transform:translateZ(12px)}
+  body.ready .t3d.blue3d{animation:glitch 6s steps(1) infinite}
   @keyframes glitch{
-    0%,91.5%,95.5%,100%{transform:none;text-shadow:none}
-    92%{transform:translateX(4px) skewX(-3deg);text-shadow:-5px 0 rgba(255,56,96,.8)}
-    93%{transform:translateX(-4px) skewX(3deg);text-shadow:5px 0 rgba(77,124,254,.8)}
-    94%{transform:translateX(2px);text-shadow:-3px 0 rgba(47,221,154,.7),3px 0 rgba(255,56,96,.7)}
-    95%{transform:translateX(-2px);text-shadow:2px 0 rgba(77,124,254,.7)}
+    0%,91.5%,95.5%,100%{transform:none}
+    92%{transform:translateX(4px) skewX(-3deg)}
+    93%{transform:translateX(-4px) skewX(3deg)}
+    94%{transform:translateX(2px)}
+    95%{transform:translateX(-2px)}
   }
-  /* pulsirajući glow na glavnoj liniji */
-  body.ready .h-in{animation:glowPulse 3.4s ease-in-out infinite}
-  @keyframes glowPulse{
-    0%,100%{filter:drop-shadow(0 0 22px rgba(255,56,96,.28))}
-    50%{filter:drop-shadow(0 0 44px rgba(255,56,96,.55))}
-  }
-  .mask{display:block;overflow:hidden}
-  .mask>span{display:block;transform:none;transition:transform .8s var(--ease) var(--d,0s)}
-  body.booting .mask>span{transform:translateY(115%)}
   .hr-anim{opacity:1;transform:none;
     transition:opacity .65s ease var(--d,0s),transform .65s var(--ease) var(--d,0s)}
   body.booting .hr-anim{opacity:0;transform:translateY(26px)}
+  body.booting .h3d-stage{opacity:0;transform:translateY(40px) scale(.92)}
+  .h3d-stage{transition:opacity .8s ease .25s,transform .8s var(--ease) .25s}
 
-  /* ============ PRETRAGA ============ */
-  .searchbar{margin-top:52px;display:flex;align-items:center;gap:14px;
-    background:var(--bg2);height:62px;padding:0 20px;transition:.25s;position:relative;
+  .searchbar{margin-top:54px;display:flex;align-items:center;gap:14px;
+    background:var(--bg2);height:62px;padding:0 20px;transition:.25s;
     border:1px solid var(--line2);
     clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
   .searchbar:focus-within{border-color:var(--blue);
-    box-shadow:0 0 24px rgba(77,124,254,.4),inset 0 0 24px rgba(77,124,254,.07);
-    animation:searchPulse 2.2s ease-in-out infinite}
-  @keyframes searchPulse{
-    0%,100%{box-shadow:0 0 20px rgba(77,124,254,.32),inset 0 0 20px rgba(77,124,254,.05)}
-    50%{box-shadow:0 0 34px rgba(77,124,254,.55),inset 0 0 26px rgba(77,124,254,.1)}
-  }
+    box-shadow:0 0 24px rgba(77,124,254,.4),inset 0 0 24px rgba(77,124,254,.07)}
   .searchbar svg{width:19px;height:19px;color:var(--mut);flex:none}
   .searchbar input{flex:1;background:none;border:none;outline:none;color:var(--paper);
     font-family:var(--mono);font-size:14px;min-width:0}
@@ -291,8 +286,8 @@
   .ix.kz.on{border-left-color:var(--red);background:rgba(255,56,96,.08)}
   .ix.kz.on .ix-code{color:var(--red);text-shadow:0 0 10px rgba(255,56,96,.6)}
 
-  /* ============ PRAVILO — gaming kartica ============ */
-  .rule{position:relative;scroll-margin-top:170px;margin-bottom:26px;
+  /* ============ PRAVILO ============ */
+  .rule{position:relative;scroll-margin-top:180px;margin-bottom:26px;
     background:linear-gradient(160deg,var(--card),var(--bg2));
     border:1px solid var(--line);transition:border-color .3s,box-shadow .3s,transform .35s var(--ease);
     clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
@@ -303,7 +298,6 @@
   html.js .rule{opacity:0;transform:translateY(30px) scale(.985)}
   html.js .rule.in{opacity:1;transform:none}
   .rule-inner{padding:36px 40px 34px;position:relative;overflow:hidden}
-  /* shine prelaz preko kartice na hover */
   .rule-inner::before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
     background:linear-gradient(100deg,transparent,rgba(237,241,250,.07),transparent);
     transform:skewX(-22deg);transition:left .8s var(--ease);pointer-events:none;z-index:0}
@@ -318,7 +312,7 @@
   .rule-head{display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap;
     padding-bottom:26px;border-bottom:1px solid var(--line);position:relative}
   .rule-code{font-family:var(--disp);font-weight:700;color:var(--tc);
-    font-size:clamp(3.2rem,6.4vw,5.4rem);line-height:.9;letter-spacing:.01em;flex:none;
+    font-size:clamp(3.2rem,6.4vw,5.4rem);line-height:.9;flex:none;
     text-shadow:0 0 28px var(--tcg);transition:.25s}
   .rule:hover .rule-code{text-shadow:0 0 48px var(--tcg);transform:scale(1.03)}
   .rule-id{flex:1;min-width:260px}
@@ -343,7 +337,6 @@
   .rule:hover .rule-link{opacity:1}
   .rule-link:hover{color:var(--blue);border-color:var(--blue);box-shadow:0 0 12px rgba(77,124,254,.4)}
 
-  /* staggered ulaz elemenata unutar pravila */
   html.js .rule .rule-head,html.js .rule .rule-def,html.js .rule .rule-cols,html.js .rule .sc-toggle{
     opacity:0;transform:translateY(14px)}
   html.js .rule.in .rule-head{opacity:1;transform:none;transition:opacity .45s ease .07s,transform .45s var(--ease) .07s}
@@ -383,7 +376,7 @@
     transition:.15s;text-transform:uppercase}
   .sc-toggle b{color:var(--paper)}
   .sc-toggle .cnt{color:var(--blue)}
-  .sc-toggle svg{width:14px;height:14px;margin-left:auto;transition:transform .25s}
+  .sc-toggle svg{width:14px;height:14px;margin-left:auto;transition:transform .25s;flex:none}
   .sc-toggle:hover{color:var(--paper)}
   .sc-toggle.closed svg{transform:rotate(-90deg)}
   .sc-toggle.closed + .sc-list{display:none}
@@ -391,24 +384,18 @@
   .scn{margin-top:20px;background:var(--bg3);border:1px solid var(--line);transition:.2s;
     clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
   .scn:hover{border-color:var(--line2);box-shadow:0 0 26px rgba(0,0,0,.55);transform:translateX(4px)}
-  .scn-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .scn-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
   .scn-verdict{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;font-weight:700;padding:5px 10px;flex:none;
     clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px)}
-  .scn.bad .scn-verdict{background:rgba(255,56,96,.14);color:var(--red);border:1px solid rgba(255,56,96,.5);
-    box-shadow:0 0 12px rgba(255,56,96,.2)}
-  .scn.ok .scn-verdict{background:rgba(47,221,154,.1);color:var(--green);border:1px solid rgba(47,221,154,.45);
-    box-shadow:0 0 12px rgba(47,221,154,.15)}
+  .scn.bad .scn-verdict{background:rgba(255,56,96,.14);color:var(--red);border:1px solid rgba(255,56,96,.5);box-shadow:0 0 12px rgba(255,56,96,.2)}
+  .scn.ok .scn-verdict{background:rgba(47,221,154,.1);color:var(--green);border:1px solid rgba(47,221,154,.45);box-shadow:0 0 12px rgba(47,221,154,.15)}
   .scn-title{font-family:var(--mono);font-size:12px;color:var(--paper)}
   .scn-scene{padding:13px 16px 0;font-size:13.5px;color:var(--mut);font-style:italic}
   .log{margin:14px 16px 16px;background:#03050A;border:1px solid var(--line);
     border-left:3px solid var(--blue);padding:14px 16px;
     font-family:var(--mono);font-size:12.5px;line-height:1.9;position:relative;overflow:hidden}
   .scn:hover .log{border-left-color:var(--red)}
-  .log::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;
-    background:linear-gradient(90deg,transparent,rgba(77,124,254,.6),transparent);
-    animation:logScan 4s linear infinite;pointer-events:none}
-  @keyframes logScan{0%{top:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:100%;opacity:0}}
-  .ln{display:flex;gap:10px;align-items:baseline}
+  .ln{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
   .tg{flex:none;font-size:9.5px;font-weight:700;letter-spacing:.08em;padding:1px 6px;min-width:32px;text-align:center}
   .tg-me{background:rgba(255,92,92,.14);color:var(--t3)}
   .tg-do{background:rgba(95,106,133,.16);color:var(--mut)}
@@ -416,14 +403,13 @@
   .tg-ooc,.tg-dc{background:rgba(77,124,254,.14);color:var(--blue)}
   .tg-sys{background:rgba(255,56,96,.16);color:var(--red)}
   .tg-sys.ok{background:rgba(47,221,154,.14);color:var(--green)}
-  .ln .tx{color:var(--body);word-break:break-word}
+  .ln .tx{color:var(--body);word-break:break-word;min-width:0;flex:1}
   .ln .tx b{color:var(--paper);font-weight:700}
   .ln.sysline .tx{color:#9AA4BC}
 
   #empty{padding:90px 40px;text-align:center;background:var(--card);border:1px solid var(--line)}
   #empty svg{width:38px;height:38px;color:var(--mut)}
-  #empty h3{font-family:var(--disp);font-weight:700;color:var(--paper);font-size:1.7rem;
-    text-transform:uppercase;margin-top:18px}
+  #empty h3{font-family:var(--disp);font-weight:700;color:var(--paper);font-size:1.7rem;text-transform:uppercase;margin-top:18px}
   #empty p{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:14px}
   #empty button{margin-top:26px;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.16em;
     border:1px solid var(--line2);padding:12px 22px;color:var(--body);transition:.15s;text-transform:uppercase;
@@ -451,8 +437,7 @@
     clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
   html.js .pen{opacity:0;transform:translateY(24px)}
   html.js .pen.in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s var(--ease),border-color .25s,box-shadow .25s}
-  .pen.in:hover{border-color:var(--line2);transform:translateY(-4px);
-    box-shadow:0 12px 36px rgba(0,0,0,.5)}
+  .pen.in:hover{border-color:var(--line2);transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.5)}
   .pen-id{padding-right:8px}
   .pen-no{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--mut)}
   .pen-code{font-family:var(--disp);font-weight:700;color:var(--paper);
@@ -466,8 +451,7 @@
   .pstep{background:var(--bg2);border:1px solid var(--line);padding:18px 18px 20px;position:relative;transition:.2s;
     clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
   .pstep:hover{border-color:var(--c);box-shadow:0 0 24px var(--cg);transform:translateY(-3px)}
-  .pstep::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--c);
-    box-shadow:0 0 10px var(--c)}
+  .pstep::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--c);box-shadow:0 0 10px var(--c)}
   .pstep:not(:last-child)::after{content:"▸";position:absolute;right:-14px;top:50%;
     transform:translateY(-50%);color:var(--mut);font-family:var(--mono);font-size:12px;z-index:1}
   html.js .pen .pstep{opacity:0;transform:translateX(14px)}
@@ -530,8 +514,8 @@
   @media(max-width:1024px){
     .layout{grid-template-columns:1fr;gap:0}
     #index{position:sticky;top:110px;z-index:60;display:flex;gap:8px;overflow-x:auto;
-      background:rgba(7,10,18,.94);backdrop-filter:blur(10px);padding:12px 0;
-      border-bottom:1px solid var(--line);scrollbar-width:none}
+      background:rgba(7,10,18,.96);backdrop-filter:blur(10px);padding:12px 0;
+      border-bottom:1px solid var(--line);scrollbar-width:none;-webkit-overflow-scrolling:touch}
     #index::-webkit-scrollbar{display:none}
     .ix-title{display:none}
     .ix{border:1px solid var(--line2);height:34px;flex:none;padding:0 12px;background:var(--bg2)}
@@ -552,16 +536,17 @@
     .kazne{padding:0 16px 100px}
     .rule-cols{grid-template-columns:1fr}
     .rule-head{gap:16px}
-    .rule-inner{padding:26px 20px 26px}
-    .pen{padding:24px 20px}
+    .rule-inner{padding:26px 18px 24px}
+    .pen{padding:24px 18px}
     .pen-steps{grid-template-columns:1fr}
-    .pstep + .pstep{margin-top:4px}
+    .pstep + .pstep{margin-top:6px}
     .foot{padding:64px 16px 44px}
     .foot-row{flex-direction:column;gap:8px}
     .rule-link{opacity:1}
-    .gridfloor{height:260px;bottom:-90px}
-    .horizon{bottom:130px}
-    .particles{display:none}
+    .gridfloor{height:240px;bottom:-90px}
+    .horizon{bottom:120px}
+    .t3d-outline{letter-spacing:.18em}
+    .scn:hover{transform:none}
   }
 </style>
 </head>
@@ -627,7 +612,6 @@
 
   var rm = false;
   try{ rm = matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
-  /* SREDNJA BRZINA */
   var BASE = rm ? 30 : 100;
   var VAR  = rm ? 10 : 85;
 
@@ -673,7 +657,6 @@
 })();
 </script>
 
-<!-- MREŽA SIGURNOSTI -->
 <script>
 setTimeout(function(){
   if(!window.__ehBootDone){
@@ -714,20 +697,22 @@ setTimeout(function(){
   <div class="orb o1" aria-hidden="true"></div>
   <div class="orb o2" aria-hidden="true"></div>
   <div class="orb o3" aria-hidden="true"></div>
-  <div class="particles" aria-hidden="true">
-    <span class="pt"></span><span class="pt"></span><span class="pt"></span>
-    <span class="pt"></span><span class="pt"></span><span class="pt"></span>
-  </div>
   <div class="eyebrow hr-anim" style="--d:.05s">BALKAN EH · IZDANJE 9.5 · OBAVEZNO ZA SVE IGRAČE</div>
   <div class="badges hr-anim" style="--d:.15s">
     <span class="badge red"><i></i>LIVE</span>
     <span class="badge blue">IZDANJE 9.5</span>
     <span class="badge green">PRAVILNIK</span>
   </div>
-  <h1>
-    <span class="mask" style="--d:.25s"><span class="h-out">BALKAN EH</span></span>
-    <span class="mask" style="--d:.4s"><span class="h-in">PRAVILNIK<span class="dot">.</span></span></span>
-  </h1>
+
+  <!-- ============ 3D NASLOV ============ -->
+  <div class="h3d-stage" id="h3dStage">
+    <div class="h3d-inner" id="h3dInner">
+      <h1 class="t3d blue3d">BALKAN EH</h1>
+      <div class="t3d red3d">V9.5</div>
+      <span class="t3d-outline">PRAVILNIK</span>
+    </div>
+  </div>
+
   <div class="searchbar hr-anim" id="sbar" style="--d:.6s">
     <i data-lucide="search"></i>
     <input id="q" type="text" placeholder="Traži pravilo, kraticu ili ključnu reč…" autocomplete="off">
@@ -1139,7 +1124,7 @@ const RULES = [
 {
   code:"HK", name:"Hitman Kill", sub:"Ubistvo po ugovoru, bez odobrenja", threat:4,
   fine:"Ban 7–30 dana za naručioca i izvršioca",
-  def:"Naručivanje ili izvršavanje ubistva preko trećeg lica — „hitmen posao“ — <b>najstrože je regulisano</b>: zahteva adminska odobrenja, realnu agenciju sa pričom i ozbiljnu IC osnovu. HK bez papira je RDM sa posrednikom.",
+  def:"Naručivanje ili izvršavanje ubistva preko trećeg lice — „hitmen posao“ — <b>najstrože je regulisano</b>: zahteva adminska odobrenja, realnu agenciju sa pričom i ozbiljnu IC osnovu. HK bez papira je RDM sa posrednikom.",
   ok:["Ugovoreni CK sa odobrenjem obe strane i administracije","Nabavka batina ili zastraživanja kroz priču — bez ubistva","Fixer lik sa licencom, dosijeom i cenovnikom, pod supervizijom"],
   no:["Plaćanje drugom igraču 5.000€ da „skine“ trećeg bez odobrenja","Solo hitman lik koji ubija po DM-u bez ijedne scene","Naručivanje ubistva preko OOC kanala — Discord, DM-ovi"],
   ex:[
@@ -1210,7 +1195,6 @@ const pad = n => String(n).padStart(2,"0");
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function safe(fn){ try{ fn(); }catch(e){ console.error('[BALKAN EH]', e); } }
 
-/* ---------------- toast ---------------- */
 function toast(msg){
   var box = document.getElementById('toasts');
   if(!box) return;
@@ -1331,7 +1315,6 @@ function renderIndex(){
   '</a>';
 }
 
-/* ---------------- ticker ---------------- */
 safe(function(){
   var one = RULES.map(function(r){
     return '<button class="tk" data-code="'+r.code+'"><b>'+(r.code==="FRP2"?"FAIL RP":r.code)+'</b>'+r.name.toUpperCase()+'</button><span class="tk-sep">///</span>';
@@ -1361,7 +1344,7 @@ function applyFilter(){
   if(emp) emp.hidden = visible>0;
   if(visible===0){
     var m = document.getElementById("emptyMsg");
-    if(m) m.textContent = "Nijedno pravilo se ne poklapa sa „"+state.q.trim()+"“. Probaj kraticu (RDM, NLR…) ili pojam (osveta, pljačka, ban…).";
+    if(m) m.textContent = "Nijedno pravilo se ne poklapa sa „"+state.q.trim()+"“.";
   }
 }
 
@@ -1453,7 +1436,30 @@ safe(renderPens);
 safe(renderIndex);
 safe(applyFilter);
 
+/* ============================================================
+   REBURN SISTEM — više slojeva zaštite da pravila UVEK budu vidljiva
+   (popravka za mobilne: observer ponekad ne okine)
+   ============================================================ */
+var revealList = [];
+function collectReveal(){
+  revealList = [];
+  document.querySelectorAll(".rule,.pen").forEach(function(el){ revealList.push(el); });
+}
+function checkReveal(){
+  var vh = window.innerHeight || document.documentElement.clientHeight;
+  revealList.forEach(function(el){
+    if(el.classList.contains("in")) return;
+    var r = el.getBoundingClientRect();
+    if(r.top < vh + 80 && r.bottom > -80) el.classList.add("in");
+  });
+}
+function forceAllIn(){
+  revealList.forEach(function(el){ el.classList.add("in"); });
+}
+
 safe(function(){
+  collectReveal();
+
   if('IntersectionObserver' in window){
     var spy = new IntersectionObserver(function(entries){
       entries.forEach(function(en){ if(en.isIntersecting) setActive(en.target.dataset.code); });
@@ -1461,26 +1467,69 @@ safe(function(){
     var reveal = new IntersectionObserver(function(entries){
       entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); reveal.unobserve(en.target); } });
     },{rootMargin:"0px 0px -8% 0px"});
+
     document.querySelectorAll(".rule").forEach(function(a){ spy.observe(a); reveal.observe(a); });
     document.querySelectorAll(".pen").forEach(function(p){ reveal.observe(p); });
     var kz = document.getElementById("kazne");
     if(kz) spy.observe(kz);
+
     document.documentElement.classList.add("js");
-    /* fail-safe */
-    setTimeout(function(){
-      document.querySelectorAll(".rule,.pen").forEach(function(el){
-        if(el.classList.contains("in")) return;
-        var r = el.getBoundingClientRect();
-        if(r.top < window.innerHeight && r.bottom > 0) el.classList.add("in");
-      });
-    }, 1200);
   } else {
-    document.querySelectorAll(".rule,.pen").forEach(function(el){ el.classList.add("in"); });
+    /* stariji mobilni browseri bez IO */
+    document.documentElement.classList.add("js");
+    forceAllIn();
   }
+
+  /* SLOJ 1: ručna provera na scroll + touch + load + resize */
+  window.addEventListener("scroll", checkReveal, {passive:true});
+  window.addEventListener("touchmove", checkReveal, {passive:true});
+  window.addEventListener("resize", checkReveal, {passive:true});
+  window.addEventListener("load", checkReveal);
+  window.addEventListener("pageshow", checkReveal);
+
+  /* SLOJ 2: rane provere */
+  requestAnimationFrame(checkReveal);
+  setTimeout(checkReveal, 200);
+  setTimeout(checkReveal, 600);
+
+  /* SLOJ 3: ako posle 1.5s NIJEDNO pravilo nije .in → prikaži sve */
+  setTimeout(function(){
+    var any = document.querySelector(".rule.in, .pen.in");
+    if(!any) forceAllIn();
+  }, 1500);
+
+  /* SLOJ 4: apsolutni fail-safe */
+  setTimeout(forceAllIn, 5000);
+
+  /* i posle introa proveri odmah */
+  function onReady(){ checkReveal(); setTimeout(checkReveal, 350); }
+  if(window.__ehBootDone) onReady();
+  else window.addEventListener('eh:ready', onReady);
 });
 
 safe(function(){
   if(window.lucide) lucide.createIcons();
+});
+
+/* ---------------- 3D NASLOV — parallax na miš ---------------- */
+safe(function(){
+  var stage = document.getElementById('h3dStage');
+  var inner = document.getElementById('h3dInner');
+  if(!stage || !inner) return;
+  var fine = false;
+  try{ fine = matchMedia('(pointer:fine)').matches; }catch(e){}
+  if(!fine) return; /* na telefonu radi float animacija iz CSS-a */
+  var hero = document.getElementById('top');
+  hero.addEventListener('pointermove', function(e){
+    var r = stage.getBoundingClientRect();
+    if(!r.width) return;
+    var x = (e.clientX - r.left) / r.width - .5;
+    var y = (e.clientY - r.top) / r.height - .5;
+    inner.style.transform = 'rotateX(' + (16 - y*14).toFixed(1) + 'deg) rotateY(' + (-7 + x*20).toFixed(1) + 'deg)';
+  });
+  hero.addEventListener('pointerleave', function(){
+    inner.style.transform = 'rotateX(16deg) rotateY(-7deg)';
+  });
 });
 
 /* ---------------- scroll ---------------- */
@@ -1488,7 +1537,8 @@ var hdr = document.getElementById("hdr");
 var chip = document.getElementById("chip");
 window.addEventListener("scroll", function(){
   var h = document.documentElement;
-  var p = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? h.scrollTop / max * 100 : 0;
   document.getElementById("pbar").style.width = p + "%";
   if(chip) chip.classList.toggle("show", h.scrollTop > 650);
   if(hdr) hdr.classList.toggle("compact", h.scrollTop > 60);
